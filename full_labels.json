@@ -1,0 +1,22 @@
+{
+  "crops": [
+    "Apple",
+    "Cedar",
+    "Corn",
+    "Potato",
+    "Tomato"
+  ],
+  "diseases": [
+    "Apple Rust",
+    "Bacterial Spot",
+    "Black Rot",
+    "Common Rust",
+    "Early Blight",
+    "Healthy",
+    "Late Blight",
+    "Mosaic Virus",
+    "Northern Leaf Blight",
+    "Scab",
+    "Yellow Leaf Curl"
+  ]
+}

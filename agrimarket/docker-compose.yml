@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  # MongoDB
+  mongo:
+    image: mongo:7.0
+    container_name: agrimarket-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: agrimarket
+    networks:
+      - agrimarket-net
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: agrimarket-api
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      MONGODB_URI: mongodb://mongo:27017/agrimarket
+      JWT_ACCESS_SECRET: change_this_secret_in_production_32chars
+      JWT_REFRESH_SECRET: change_this_refresh_secret_in_prod_32ch
+      FRONTEND_URL: http://localhost:5173
+      COOKIE_SECRET: change_cookie_secret_32chars_minimum
+    depends_on:
+      - mongo
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks:
+      - agrimarket-net
+    command: npm run dev
+
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: agrimarket-web
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://localhost:5000/api
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - agrimarket-net
+    command: npm run dev -- --host
+
+networks:
+  agrimarket-net:
+    driver: bridge
+
+volumes:
+  mongo_data:

@@ -1,0 +1,463 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light Theme - Slate & Emerald */
+    --surface: 0 0% 100%;
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+    --primary: 142 71% 45%;
+    --primary-foreground: 0 0% 100%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 142 71% 95%;
+    --accent-foreground: 142 71% 25%;
+    --border: 214.3 31.8% 91.4%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --ring: 142 71% 45%;
+  }
+
+  .dark {
+    /* Dark Theme - Midnight & Forest */
+    --surface: 222 47% 11%;
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
+    --primary: 142 71% 45%;
+    --primary-foreground: 142 71% 5%;
+    --muted: 223 47% 11%;
+    --muted-foreground: 215.4 16.3% 60%;
+    --accent: 144 61% 20%;
+    --accent-foreground: 142 71% 95%;
+    --border: 216 34% 17%;
+    --card: 222 47% 11%;
+    --card-foreground: 213 31% 91%;
+    --ring: 142 71% 45%;
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: #1a1a1a;
+    @apply font-sans antialiased;
+    font-size: 16px;
+    line-height: 1.6;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;      /* 32px */
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: #1a1a1a;
+  }
+
+  h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;    /* 24px */
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    color: #1a1a1a;
+  }
+
+  h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.125rem;  /* 18px */
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    color: #1a1a1a;
+  }
+
+  h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #1a1a1a;
+  }
+
+  p {
+    font-size: 1rem;      /* 16px */
+    font-weight: 400;
+    line-height: 1.6;
+    color: #1a1a1a;
+  }
+
+  small, .caption {
+    font-size: 0.75rem;   /* 12px */
+    font-weight: 400;
+    line-height: 1.5;
+    color: #6b7280;
+  }
+}
+
+@layer components {
+  /* Layout */
+  .layout-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-white rounded-2xl border border-gray-100 shadow-card transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply hover:shadow-card-hover hover:-translate-y-1;
+  }
+
+  .card-body {
+    @apply p-6;
+  }
+
+  /* Buttons */
+  .btn-base {
+    @apply px-4 py-2 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-primary {
+    @apply btn-base bg-primary-600 text-white hover:bg-primary-700 shadow-sm;
+  }
+
+  .btn-secondary {
+    @apply btn-base bg-white border border-gray-200 text-gray-700 hover:bg-gray-50;
+  }
+
+  .btn-outline {
+    @apply btn-base border border-primary-200 text-primary-600 hover:bg-primary-50;
+  }
+
+  .btn-ghost {
+    @apply btn-base text-gray-600 hover:bg-gray-100;
+  }
+
+  .btn-lg {
+    @apply px-6 py-3 text-lg;
+  }
+
+  .btn-sm {
+    @apply px-3 py-1.5 text-sm;
+  }
+
+  /* Form Elements */
+  .input {
+    @apply w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500/10 focus:border-primary-500 transition-all duration-200 bg-white placeholder:text-gray-400;
+  }
+
+  .select {
+    @apply w-full px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-gray-700 font-medium text-sm
+           focus:outline-none focus:ring-2 focus:ring-primary-500/10 focus:border-primary-500
+           transition-all duration-200 cursor-pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 36px;
+  }
+
+  .select:hover {
+    @apply border-gray-300 shadow-sm;
+  }
+
+  .select option {
+    @apply py-2 font-medium;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-gray-700 mb-1.5;
+  }
+
+  .error-text {
+    @apply text-red-500 text-xs mt-1 font-medium;
+  }
+
+  /* Status Badges */
+  .status-badge {
+    @apply px-2 py-1 rounded-lg text-xs font-bold uppercase tracking-wider;
+  }
+
+  .status-placed { @apply bg-blue-50 text-blue-600; }
+  .status-confirmed { @apply bg-purple-50 text-purple-600; }
+  .status-processing { @apply bg-amber-50 text-amber-600; }
+  .status-packed { @apply bg-orange-50 text-orange-600; }
+  .status-shipped { @apply bg-indigo-50 text-indigo-600; }
+  .status-out_for_delivery { @apply bg-cyan-50 text-cyan-600; }
+  .status-delivered { @apply bg-green-50 text-green-600; }
+  .status-cancelled { @apply bg-red-50 text-red-600; }
+  .status-returned { @apply bg-gray-50 text-gray-600; }
+
+  /* Tables */
+  .table-container {
+    @apply overflow-x-auto rounded-xl border border-gray-100 bg-white;
+  }
+
+  .table-base {
+    @apply w-full text-left border-collapse;
+  }
+
+  .table-th {
+    @apply px-4 py-3 bg-gray-50 text-[10px] font-bold uppercase tracking-wider text-gray-500 border-b border-gray-100;
+  }
+
+  .table-td {
+    @apply px-4 py-4 text-sm text-gray-700 border-b border-gray-50;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    @apply fixed top-0 left-0 h-full bg-white border-r border-gray-100
+           flex flex-col z-[50] transition-all duration-300 shadow-2xl lg:shadow-none;
+    width: 280px;
+  }
+
+  /* Navigation Drawer Overlay */
+  .overlay {
+    @apply fixed inset-0 bg-black/40 backdrop-blur-md z-[40] transition-all;
+    animation: overlayFadeIn 0.3s ease-out;
+  }
+
+  /* Icon Button */
+  .btn-icon {
+    @apply w-10 h-10 rounded-xl flex items-center justify-center text-gray-500
+           hover:bg-gray-100 hover:text-gray-700 transition-all duration-200 active:scale-90;
+  }
+
+  /* Badge */
+  .badge-green {
+    @apply px-2 py-0.5 bg-primary-100 text-primary-700 text-[10px] font-bold rounded-full;
+  }
+
+  /* Page Container */
+  .page-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Dashboard Layout & Responsive Fixes */
+  .dashboard-layout {
+    @apply min-h-screen bg-gray-50 flex overflow-x-hidden;
+  }
+
+  .dashboard-main {
+    @apply flex-1 flex flex-col min-w-0 min-h-screen transition-all duration-300;
+    margin-left: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .dashboard-main {
+      margin-left: 280px;
+    }
+  }
+
+  /* ─── Cart Drawer (Right Side Slide) ─── */
+  .cart-drawer {
+    @apply fixed top-0 right-0 h-full z-50 bg-white flex flex-col border-l border-gray-100;
+    width: 380px;
+    max-width: 90vw;
+    box-shadow: -8px 0 30px rgba(0,0,0,0.08);
+    transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .cart-drawer.open {
+    transform: translateX(0);
+  }
+
+  .cart-drawer.closed {
+    transform: translateX(100%);
+  }
+
+  /* Page Enter */
+  .page-enter {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+
+  /* ─── Profile Enhancement Utilities ─── */
+  .profile-banner {
+    @apply h-48 w-full relative overflow-hidden bg-gray-900 rounded-b-[3rem] transition-all duration-700;
+  }
+
+  .profile-banner-mesh {
+    @apply absolute inset-0 opacity-60;
+    background: 
+      radial-gradient(at 0% 0%, hsl(var(--primary)) 0px, transparent 50%),
+      radial-gradient(at 50% 0%, #a855f7 0px, transparent 50%),
+      radial-gradient(at 100% 0%, #3b82f6 0px, transparent 50%),
+      radial-gradient(at 0% 100%, #14b8a6 0px, transparent 50%),
+      radial-gradient(at 100% 100%, #6366f1 0px, transparent 50%);
+    filter: blur(40px);
+  }
+
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-xl border border-white/20 shadow-elevated;
+  }
+
+  .avatar-ring {
+    @apply relative p-1.5 rounded-full bg-gradient-to-tr from-primary-400 via-purple-500 to-blue-500 shadow-xl;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .bg-gradient-soft {
+    background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+  }
+
+  .shadow-soft {
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05), 0 4px 10px -5px rgba(0, 0, 0, 0.02);
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+}
+
+/* Global Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(0.98); }
+}
+
+@layer utilities {
+  .animate-slide-in-right {
+    animation: slideInRight 0.35s ease-out forwards;
+  }
+
+  .transition-soft {
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { @apply bg-gray-100 rounded-full; }
+::-webkit-scrollbar-thumb { @apply bg-gray-300 rounded-full hover:bg-gray-400; }
+
+/* Number input - hide arrows */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* Overlay Fade */
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ─── Dual Range Slider Thumbs ─── */
+.range-thumb {
+  position: absolute;
+  width: 100%;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  pointer-events: none;
+  outline: none;
+}
+
+.range-thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #16a34a;
+  border: 3px solid white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  cursor: pointer;
+  pointer-events: all;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.range-thumb::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 3px 10px rgba(22,163,74,0.3);
+}
+
+.range-thumb::-webkit-slider-thumb:active {
+  transform: scale(1.15);
+  box-shadow: 0 2px 12px rgba(22,163,74,0.4);
+}
+
+.range-thumb::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #16a34a;
+  border: 3px solid white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  cursor: pointer;
+  pointer-events: all;
+}
+
+.range-thumb::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 3px 10px rgba(22,163,74,0.3);
+}
+
+/* Custom DatePicker Styles */
+.custom-datepicker {
+  @apply bg-white dark:bg-gray-900 border-0 shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-[12px] p-5 font-sans ring-1 ring-gray-900/5 dark:ring-white/10;
+}
+
+.custom-datepicker .react-datepicker__header {
+  @apply bg-transparent border-b-0 pt-0 rounded-t-[12px];
+}
+
+.custom-datepicker .react-datepicker__day-names {
+  @apply mt-2 mb-2 flex justify-between px-1;
+}
+
+.custom-datepicker .react-datepicker__day-name {
+  @apply text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500 w-9 m-0;
+}
+
+.custom-datepicker .react-datepicker__month {
+  @apply m-0;
+}
+
+.custom-datepicker .react-datepicker__week {
+  @apply flex justify-between mt-1;
+}
+
+.custom-datepicker .react-datepicker__day {
+  @apply w-9 h-9 leading-9 m-0 rounded-xl text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200 outline-none;
+}
+
+.custom-datepicker .react-datepicker__day--selected,
+.custom-datepicker .react-datepicker__day--in-selecting-range,
+.custom-datepicker .react-datepicker__day--in-range {
+  @apply bg-primary-600 text-white shadow-lg shadow-primary-600/20 hover:bg-primary-700 hover:text-white rounded-xl;
+}
+
+.custom-datepicker .react-datepicker__day--keyboard-selected {
+  @apply bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-300 rounded-xl;
+}
+
+.custom-datepicker .react-datepicker__day--outside-month {
+  @apply text-gray-300 dark:text-gray-600 pointer-events-none opacity-40 font-medium;
+}
+
+.custom-datepicker .react-datepicker__triangle {
+  @apply hidden;
+}
