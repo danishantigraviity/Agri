@@ -46,6 +46,47 @@ export default function LoginPage() {
             <p className="text-gray-500 text-sm">Sign in to your account</p>
           </div>
 
+          <div className="bg-primary-50 border border-primary-200 rounded-xl p-4 mb-6">
+            <p className="text-[10px] font-bold text-primary-800 uppercase tracking-wider mb-3 ml-1">Click to Quick-Login</p>
+            <div className="space-y-2">
+              <button
+                type="button"
+                onClick={() => setForm({ email: 'customer@demo.com', password: 'Demo@1234' })}
+                className="w-full flex items-center justify-between text-xs p-2.5 rounded-lg bg-white/50 hover:bg-white border border-primary-100 transition-colors group shadow-sm"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 flex items-center justify-center bg-blue-100 text-blue-600 rounded-md group-hover:scale-110 transition-transform">👤</span>
+                  <span className="font-semibold text-primary-900">Customer Agent</span>
+                </div>
+                <span className="text-primary-500 font-medium">customer@demo.com</span>
+              </button>
+              
+              <button
+                type="button"
+                onClick={() => setForm({ email: 'farmer@demo.com', password: 'Demo@1234' })}
+                className="w-full flex items-center justify-between text-xs p-2.5 rounded-lg bg-white/50 hover:bg-white border border-primary-100 transition-colors group shadow-sm"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 flex items-center justify-center bg-green-100 text-green-600 rounded-md group-hover:scale-110 transition-transform">🌾</span>
+                  <span className="font-semibold text-primary-900">Verified Farmer</span>
+                </div>
+                <span className="text-primary-500 font-medium">farmer@demo.com</span>
+              </button>
+              
+              <button
+                type="button"
+                onClick={() => setForm({ email: 'admin@demo.com', password: 'Demo@1234' })}
+                className="w-full flex items-center justify-between text-xs p-2.5 rounded-lg bg-white/50 hover:bg-white border border-primary-100 transition-colors group shadow-sm"
+              >
+                <div className="flex items-center gap-2">
+                  <span className="w-6 h-6 flex items-center justify-center bg-amber-100 text-amber-600 rounded-md group-hover:scale-110 transition-transform">🛡️</span>
+                  <span className="font-semibold text-primary-900">Market Admin</span>
+                </div>
+                <span className="text-primary-500 font-medium">admin@demo.com</span>
+              </button>
+            </div>
+          </div>
+
           {/* Error */}
           {error && (
             <div className="flex items-start gap-2.5 p-3 bg-red-50 border border-red-200 rounded-xl mb-5 animate-fade-in">
