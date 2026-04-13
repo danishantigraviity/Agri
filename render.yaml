@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: agrimarket-backend
+    runtime: node
+    rootDir: agrimarket/backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_ACCESS_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: COOKIE_SECRET
+        generateValue: true
+      - key: ADMIN_REGISTER_KEY
+        sync: false
+      - key: FRONTEND_URL
+        value: http://localhost:5173
+      # Add other secrets manually in the Render dashboard
