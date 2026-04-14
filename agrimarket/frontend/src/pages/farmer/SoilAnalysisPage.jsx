@@ -56,6 +56,20 @@ export default function SoilAnalysisPage() {
     setFormData(prev => ({ ...prev, [name]: parseFloat(value) }));
   };
 
+  const detectWeather = () => {
+    // Mock weather detection logic
+    setFormData({
+      N: Math.floor(Math.random() * 50) + 50,
+      P: Math.floor(Math.random() * 30) + 30,
+      K: Math.floor(Math.random() * 30) + 30,
+      pH: parseFloat((Math.random() * (7.5 - 5.5) + 5.5).toFixed(1)),
+      temperature: Math.floor(Math.random() * 15) + 20,
+      humidity: Math.floor(Math.random() * 40) + 50,
+      rainfall: Math.floor(Math.random() * 150) + 100
+    });
+    toast.success('Environment data detected!');
+  };
+
   const radarData = [
     { subject: 'Nitrogen', A: formData.N, fullMark: 140 },
     { subject: 'Phosphorus', A: formData.P, fullMark: 140 },
