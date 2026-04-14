@@ -2,11 +2,9 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import time
 
-# Import the Senior V3 Intelligence Engine
-try:
-    from model_loader import ai_engine, soil_engine
-except ImportError:
-    from agrimarket.ml_service.model_loader import ai_engine, soil_engine
+# Direct import — works when running from agrimarket/ml_service directory
+from model_loader import ai_engine, soil_engine
+
 
 app = FastAPI(
     title="AgriMarket Senior AI Multi-Crop Service",
