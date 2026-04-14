@@ -33,31 +33,48 @@ const app = express();
 const allowedOrigins = [
   process.env.FRONTEND_URL,
   'http://localhost:5173',
-  'http://127.0.0.1:5173'
-].filter(Boolean);
-
-const corsOrigin = process.env.FRONTEND_URL || 'http://localhost:5173';
+  'http://127.0.0.1:5173',
+  'https://agri-gamma-liard.vercel.app' // Fallback for safety
+].map(url => url?.replace(/\/$/, '')).filter(Boolean);
 
 app.use(cors({
-  origin: corsOrigin,
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    const sanitizedOrigin = origin.replace(/\/$/, '');
+    if (allowedOrigins.includes(sanitizedOrigin)) {
+      callback(null, true);
+    } else {
+      console.warn(`⚠️ CORS blocked for origin: ${origin}`);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Token', 'Cookie'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Token', 'Cookie', 'Accept'],
   exposedHeaders: ['Set-Cookie']
 }));
 
 // Manual CORS fallback & Preflight handler
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', corsOrigin);
-  res.header('Access-Control-Allow-Credentials', 'true');
+  const origin = req.headers.origin;
+  const sanitizedOrigin = origin?.replace(/\/$/, '');
+  
+  if (allowedOrigins.includes(sanitizedOrigin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+    res.header('Access-Control-Allow-Credentials', 'true');
+  }
+  
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-CSRF-Token, Cookie');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-CSRF-Token, Cookie, Accept');
   
   if (req.method === 'OPTIONS') {
     return res.sendStatus(200);
   }
   next();
 });
+
 
 // Security Middleware
 app.use(helmet({
