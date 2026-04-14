@@ -3,10 +3,17 @@ const crypto = require('crypto');
 const Payment = require('../models/Payment');
 const Order = require('../models/Order');
 
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
+// Lazy init — only create Razorpay instance when keys are available
+// Prevents server crash on startup if keys are not configured
+const getRazorpay = () => {
+  if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+    throw new Error('Razorpay keys not configured. Please set RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET env vars.');
+  }
+  return new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+  });
+};
 
 // @desc    Create Razorpay order
 // @route   POST /api/payments/create-order
@@ -20,6 +27,7 @@ const createRazorpayOrder = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Order not found.' });
     }
 
+    const razorpay = getRazorpay();
     const razorpayOrder = await razorpay.orders.create({
       amount: Math.round(order.pricing.total * 100), // Convert to paise
       currency: 'INR',
