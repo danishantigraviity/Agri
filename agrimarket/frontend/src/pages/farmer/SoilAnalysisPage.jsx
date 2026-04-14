@@ -57,9 +57,10 @@ export default function SoilAnalysisPage() {
     setFormData(prev => ({ ...prev, [name]: parseFloat(value) }));
   };
 
-  const detectWeather = () => {
+  function detectWeather() {
     // Mock weather detection logic
-    setFormData({
+    setFormData(prev => ({
+      ...prev,
       N: Math.floor(Math.random() * 50) + 50,
       P: Math.floor(Math.random() * 30) + 30,
       K: Math.floor(Math.random() * 30) + 30,
@@ -67,9 +68,9 @@ export default function SoilAnalysisPage() {
       temperature: Math.floor(Math.random() * 15) + 20,
       humidity: Math.floor(Math.random() * 40) + 50,
       rainfall: Math.floor(Math.random() * 150) + 100
-    });
+    }));
     toast.success('Environment data detected!');
-  };
+  }
 
   const radarData = [
     { subject: 'Nitrogen', A: formData.N, fullMark: 140 },
@@ -384,7 +385,9 @@ export default function SoilAnalysisPage() {
                     <div key={h._id} className="p-4 bg-gray-50 rounded-2xl border border-gray-100 hover:border-primary-200 transition-all group cursor-pointer">
                       <div className="flex justify-between items-start mb-2">
                         <span className="text-xs font-black text-primary-700 bg-primary-100 px-2 py-0.5 rounded-lg">{h.predictedCrop}</span>
-                        <span className="text-[10px] font-bold text-gray-400">{format(new Date(h.timestamp), 'MMM d, h:mm a')}</span>
+                        <span className="text-[10px] font-bold text-gray-400">
+                          {h.timestamp || h.createdAt ? format(new Date(h.timestamp || h.createdAt), 'MMM d, h:mm a') : 'Recently'}
+                        </span>
                       </div>
                       <div className="flex items-center gap-4">
                         <div className="text-[10px] font-bold text-gray-500">
