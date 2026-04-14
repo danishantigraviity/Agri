@@ -11,12 +11,14 @@ const getDashboard = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
     const now = new Date();
+    const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
     const dateQuery = {
       createdAt: {
-        $gte: startDate ? new Date(startDate) : new Date(now.getFullYear(), 0, 1), // Start of current year by default
+        $gte: startDate ? new Date(startDate) : thirtyDaysAgo,
         $lte: endDate ? new Date(endDate) : now,
       }
     };
+
 
     const [
       totalUsers, totalFarmers, totalCustomers,
@@ -305,7 +307,7 @@ const getActivityFeed = async (req, res) => {
       Order.find().sort({ createdAt: -1 }).limit(5).select('orderNumber pricing.total orderStatus createdAt').populate('customer', 'name'),
     ]);
 
-    // Combinining into a single timeline
+    // Combining into a single timeline
     const activities = [
       ...users.map(u => ({ type: 'user', data: u, createdAt: u.createdAt })),
       ...products.map(p => ({ type: 'product', data: p, createdAt: p.createdAt })),

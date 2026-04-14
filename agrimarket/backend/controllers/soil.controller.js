@@ -6,14 +6,16 @@ const SoilAnalysis = require('../models/SoilAnalysis');
 exports.analyzeSoil = async (req, res) => {
   try {
     const { N, P, K, pH, temperature, humidity, rainfall } = req.body;
-    const farmerId = req.user.id;
+    const farmerId = req.user.id || req.user._id;
 
-    // Call ML Service
-    const mlResponse = await fetch('http://localhost:8000/analyze-soil', {
+    // Call ML Service (using environment variable for production)
+    const mlServiceBaseUrl = (process.env.ML_SERVICE_URL || 'http://localhost:8000').replace('/predict', '');
+    const mlResponse = await fetch(`${mlServiceBaseUrl}/analyze-soil`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ N, P, K, pH, temp: temperature, hum: humidity, rain: rainfall })
     });
+
 
     if (!mlResponse.ok) {
       throw new Error('ML Service Error');

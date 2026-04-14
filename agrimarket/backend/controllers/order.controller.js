@@ -261,6 +261,7 @@ const getFarmerOrders = async (req, res) => {
 const getFarmerAnalytics = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
+    const farmerId = req.user._id;
     const now = new Date();
     
     // Default search window for trends
@@ -268,15 +269,10 @@ const getFarmerAnalytics = async (req, res) => {
     const fourteenDaysAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000);
     const sixMonthsAgo = new Date(now.getTime() - 180 * 24 * 60 * 60 * 1000);
 
-    const queryWindow = {
-      'items.farmer': farmerId,
-      createdAt: {
-        $gte: startDate ? new Date(startDate) : sevenDaysAgo,
-        $lte: endDate ? new Date(endDate) : now,
-      }
-    };
-
-    const [totals, statusBreakdown, dailyRevenue, topProducts, previousTotals, lowStockProducts, customerInsights] = await Promise.all([
+    const [
+      totals, statusBreakdown, dailyRevenue, topProducts, 
+      previousTotals, lowStockProducts, customerInsights, heatmap
+    ] = await Promise.all([
       // Total revenue + orders (All time)
       Order.aggregate([
         { $match: { 'items.farmer': farmerId, paymentStatus: 'paid' } },
@@ -318,7 +314,7 @@ const getFarmerAnalytics = async (req, res) => {
         {
           $group: {
             _id: '$items.product',
-            name: { $first: '$items.name' },
+            item_name: { $first: '$items.name' },
             totalSold: { $sum: '$items.quantity' },
             revenue: { $sum: '$items.subtotal' },
           },
@@ -390,8 +386,7 @@ const getFarmerAnalytics = async (req, res) => {
       return Math.round(((current - previous) / previous) * 100);
     };
 
-    // Note: Totals[0] is all-time. For a better trend, we should compare 
-    // current 7 days vs previous 7 days.
+    // Calculate growth percentages using 7-day windows
     const current7DaysRevenue = dailyRevenue.reduce((acc, curr) => acc + curr.revenue, 0);
     const revenueGrowth = calculateGrowth(current7DaysRevenue, prevPeriod.revenue);
 
@@ -411,9 +406,10 @@ const getFarmerAnalytics = async (req, res) => {
         topProducts,
         lowStockAlerts: lowStockProducts,
         customerInsights: customerInsights[0] || { totalUnique: 0, repeatCount: 0 },
-        heatmap: arguments[7] || [], // Accessing the 8th result from Promise.all
+        heatmap: heatmap || [],
       },
     });
+
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
