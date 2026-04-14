@@ -261,21 +261,27 @@ const getFarmerOrders = async (req, res) => {
 const getFarmerAnalytics = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
-    const farmerId = req.user._id;
     const now = new Date();
+    const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
     
-    // Default search window for trends
+    // Default search window for charts
+    const dateQuery = {
+      createdAt: {
+        $gte: startDate ? new Date(startDate) : thirtyDaysAgo,
+        $lte: endDate ? new Date(endDate) : now,
+      }
+    };
+
     const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
     const fourteenDaysAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000);
-    const sixMonthsAgo = new Date(now.getTime() - 180 * 24 * 60 * 60 * 1000);
 
     const [
       totals, statusBreakdown, dailyRevenue, topProducts, 
       previousTotals, lowStockProducts, customerInsights, heatmap
     ] = await Promise.all([
-      // Total revenue + orders (All time)
+      // Total revenue + orders (Honors date range)
       Order.aggregate([
-        { $match: { 'items.farmer': farmerId, paymentStatus: 'paid' } },
+        { $match: { 'items.farmer': farmerId, paymentStatus: 'paid', ...dateQuery } },
         {
           $group: {
             _id: null,
@@ -284,9 +290,9 @@ const getFarmerAnalytics = async (req, res) => {
           },
         },
       ]),
-      // Orders by status
+      // Orders by status (Honors date range)
       Order.aggregate([
-        { $match: { 'items.farmer': farmerId } },
+        { $match: { 'items.farmer': farmerId, ...dateQuery } },
         { $group: { _id: '$orderStatus', count: { $sum: 1 } } },
       ]),
       // Last 7 days revenue
@@ -306,15 +312,15 @@ const getFarmerAnalytics = async (req, res) => {
         },
         { $sort: { _id: 1 } },
       ]),
-      // Top-selling products
+      // Top-selling products (Honors date range)
       Order.aggregate([
-        { $match: { 'items.farmer': farmerId } },
+        { $match: { 'items.farmer': farmerId, ...dateQuery } },
         { $unwind: '$items' },
         { $match: { 'items.farmer': farmerId } },
         {
           $group: {
             _id: '$items.product',
-            item_name: { $first: '$items.name' },
+            name: { $first: '$items.name' },
             totalSold: { $sum: '$items.quantity' },
             revenue: { $sum: '$items.subtotal' },
           },
