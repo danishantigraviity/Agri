@@ -9,7 +9,11 @@ exports.analyzeSoil = async (req, res) => {
     const farmerId = req.user.id || req.user._id;
 
     // Call ML Service (using environment variable for production)
-    const mlServiceBaseUrl = (process.env.ML_SERVICE_URL || 'http://localhost:8000').replace('/predict', '');
+    const rawUrl = process.env.ML_SERVICE_URL || 'http://localhost:8000';
+    const mlServiceBaseUrl = rawUrl.replace(/\/+$/, '').replace(/\/predict$/, '');
+    
+    console.log(`📡 [SoilAnalysis] Calling ML Service: ${mlServiceBaseUrl}/analyze-soil`);
+
     const mlResponse = await fetch(`${mlServiceBaseUrl}/analyze-soil`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -58,7 +62,7 @@ exports.analyzeSoil = async (req, res) => {
  */
 exports.getAnalysisHistory = async (req, res) => {
   try {
-    const farmerId = req.user.id;
+    const farmerId = req.user.id || req.user._id;
     const history = await SoilAnalysis.find({ farmer: farmerId }).sort({ timestamp: -1 });
 
     res.status(200).json({

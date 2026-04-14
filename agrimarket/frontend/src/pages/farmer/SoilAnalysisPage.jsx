@@ -45,7 +45,8 @@ export default function SoilAnalysisPage() {
       toast.success('Analysis Complete!');
       fetchHistory();
     } catch (error) {
-      toast.error('Analysis failed. Please try again.');
+      const message = error.response?.data?.message || 'Analysis failed. Please try again.';
+      toast.error(message);
     } finally {
       setLoading(false);
     }
