@@ -17,7 +17,19 @@ router.post('/',
   protect,
   authorize('farmer'),
   requireApprovedFarmer,
-  uploadProduct.array('images', 5),
+  (req, res, next) => {
+    // Wrap multer upload to catch Cloudinary config/upload errors gracefully
+    uploadProduct.array('images', 5)(req, res, (err) => {
+      if (err) {
+        console.error('📸 Image upload error:', err.message);
+        return res.status(400).json({ 
+          success: false, 
+          message: `Image upload failed: ${err.message}. Please check server image configuration.`
+        });
+      }
+      next();
+    });
+  },
   createProduct
 );
 

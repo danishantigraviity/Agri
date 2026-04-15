@@ -114,12 +114,34 @@ const createProduct = async (req, res) => {
 
     const images = req.files?.map((f) => f.path) || [];
 
-    const product = await Product.create({
-      ...req.body,
+    // Parse dot-notation FormData fields into nested objects
+    // FormData sends: "price.mrp" = "45", "stock.quantity" = "4"
+    // Mongoose needs: price: { mrp: 45 }, stock: { quantity: 4 }
+    const body = { ...req.body };
+    
+    const productData = {
+      name: body.name,
+      description: body.description,
+      category: body.category,
+      subcategory: body.subcategory,
+      price: {
+        mrp: Number(body['price.mrp'] || body.price?.mrp || 0),
+        selling: Number(body['price.selling'] || body.price?.selling || 0),
+        unit: body['price.unit'] || body.price?.unit || 'kg',
+      },
+      stock: {
+        quantity: Number(body['stock.quantity'] || body.stock?.quantity || 0),
+      },
+      isOrganic: body.isOrganic === 'true' || body.isOrganic === true,
+      tags: typeof body.tags === 'string' 
+        ? body.tags.split(',').map(t => t.trim()).filter(Boolean) 
+        : (body.tags || []),
       farmer: req.user._id,
       images,
       isApproved: 'pending',
-    });
+    };
+
+    const product = await Product.create(productData);
 
     res.status(201).json({
       success: true,
@@ -127,6 +149,7 @@ const createProduct = async (req, res) => {
       data: product,
     });
   } catch (error) {
+    console.error('🚨 Product creation error:', error.message);
     res.status(500).json({ success: false, message: error.message });
   }
 };
