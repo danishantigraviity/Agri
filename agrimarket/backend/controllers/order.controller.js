@@ -81,19 +81,21 @@ const placeOrder = async (req, res) => {
     });
 
     await order.populate('items.product', 'name images');
-    await order.populate('customer', 'name email');
 
     // Send Success Email to Customer (COD case)
     if (paymentMethod === 'cod') {
-      try {
-        const emailContent = templates.orderSuccess(order, req.user.name);
-        await sendEmail({
-          to: req.user.email,
-          ...emailContent
-        });
-      } catch (emailErr) {
-        console.error('Failed to send COD order success email:', emailErr);
-      }
+      // Use local function or setTimeout to ensure this is truly non-blocking and doesn't affect response
+      (async () => {
+        try {
+          const emailContent = templates.orderSuccess(order, req.user.name);
+          await sendEmail({
+            to: req.user.email,
+            ...emailContent
+          });
+        } catch (emailErr) {
+          console.error('Failed to send COD order success email:', emailErr);
+        }
+      })();
     }
 
     res.status(201).json({
