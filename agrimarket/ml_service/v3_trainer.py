@@ -59,7 +59,7 @@ class AgriV3Model:
             metrics=["accuracy"]
         )
 
-        print("🚀 Starting Phase 1: Head Warm-up...")
+        print("[PHASE 1] Starting Head Warm-up...")
         self.model.fit(
             train_ds, 
             validation_data=val_ds, 
@@ -71,7 +71,7 @@ class AgriV3Model:
         )
 
         # Phase 2: Full Fine-Tuning (Unfreeze Top Layers)
-        print("🔓 Unfreezing top 20 layers for deep fine-tuning...")
+        print("[SYSTEM] Unfreezing top 20 layers for deep fine-tuning...")
         for layer in self.model.layers[-20:]:
             if not isinstance(layer, layers.BatchNormalization):
                 layer.trainable = True
@@ -82,7 +82,7 @@ class AgriV3Model:
             metrics=["accuracy"]
         )
 
-        print(f"🚀 Starting Phase 2: Final Fine-tuning ({epochs} epochs)...")
+        print(f"[PHASE 2] Starting Final Fine-tuning ({epochs} epochs)...")
         history = self.model.fit(
             train_ds, 
             validation_data=val_ds, 
@@ -103,7 +103,7 @@ if __name__ == "__main__":
         train_ds = pipeline.create_dataset(df)
         
         v3_model = AgriV3Model(pipeline.num_crops, pipeline.num_diseases)
-        print("✅ Multi-Head Model Architecture Initialized.")
+        print("[SUCCESS] Multi-Head Model Architecture Initialized.")
         v3_model.model.summary()
     except Exception as e:
-        print(f"🛠 Logical Setup: Skipping training loop execution in local environment.")
+        print(f"[LOG] Logical Setup: Skipping training loop execution in local environment.")

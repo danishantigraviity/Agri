@@ -47,9 +47,9 @@ class SeniorAgriModel:
                 self.grad_model = tf.keras.models.Model(
                     [self.model.inputs], [last_conv_layer.output, self.model.output]
                 )
-                print(f"✅ V3 Senior Model Loaded: {model_path}")
+                print(f"[SUCCESS] V3 Senior Model Loaded: {model_path}")
             except Exception as e:
-                print(f"⚠️ Model Load Error: {e}. Falling back to simulation.")
+                print(f"[WARNING] Model Load Error: {e}. Falling back to simulation.")
 
     def _generate_heatmap(self, img_array, class_idx):
         if not self.grad_model: return None

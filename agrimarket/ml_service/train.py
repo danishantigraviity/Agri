@@ -15,19 +15,19 @@ BATCH_SIZE = 32
 EPOCHS = 5
 
 def train_model():
-    print("📢 Phase 3: AI Model Training (EfficientNetB0)")
+    print("[PHASE 3] AI Model Training (EfficientNetB0)")
     
     # 1. Load Labels
     if not os.path.exists(EXCEL_PATH):
-        print(f"❌ Error: {EXCEL_PATH} not found.")
+        print(f"[ERROR] Error: {EXCEL_PATH} not found.")
         return
     
     df = pd.read_excel(EXCEL_PATH)
     # Combine Crop and Disease for full label
     df['full_label'] = df['crop'] + " " + df['disease']
     
-    print(f"📊 Dataset loaded: {len(df)} images.")
-    print(f"🧬 Unique Classes: {df['full_label'].nunique()}")
+    print(f"[LOG] Dataset loaded: {len(df)} images.")
+    print(f"[INFO] Unique Classes: {df['full_label'].nunique()}")
 
     # 2. Split Data
     train_df, val_df = train_test_split(df, test_size=0.2, random_state=42, stratify=df['full_label'])
@@ -79,7 +79,7 @@ def train_model():
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
     # 5. Training
-    print("🚀 Starting Training Loop...")
+    print("[SYSTEM] Starting Training Loop...")
     
     callbacks = [
         tf.keras.callbacks.EarlyStopping(patience=3, restore_best_weights=True),
@@ -94,14 +94,14 @@ def train_model():
     )
 
     # 6. Save Final Model
-    print(f"✅ Training Complete! Model saved to {MODEL_SAVE_PATH}")
+    print(f"[SUCCESS] Training Complete! Model saved to {MODEL_SAVE_PATH}")
     
     # Export class indices for later use
     class_indices_path = os.path.join("agrimarket", "ml_service", "class_indices.txt")
     with open(class_indices_path, "w") as f:
         for cls, idx in train_generator.class_indices.items():
             f.write(f"{cls}:{idx}\n")
-    print(f"📝 Class indices saved to {class_indices_path}")
+    print(f"[INFO] Class indices saved to {class_indices_path}")
 
 if __name__ == "__main__":
     train_model()

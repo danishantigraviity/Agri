@@ -83,7 +83,7 @@ if __name__ == "__main__":
     pipeline = AgriDataPipeline("crop_disease_labels.xlsx")
     try:
         df = pipeline.load_and_preprocess()
-        print(f"✅ Data Pipeline Initialized: {len(df)} images ready for ingestion.")
-        print(f"🧬 Logical Crops: {list(pipeline.crop_map.keys())}")
+        print(f"[SUCCESS] Data Pipeline Initialized: {len(df)} images ready for ingestion.")
+        print(f"[INFO] Logical Crops: {list(pipeline.crop_map.keys())}")
     except Exception as e:
-        print(f"🛠 Logical Setup: Dataset CSV missing, initializing mocking sequence.")
+        print(f"[LOG] Logical Setup: Dataset CSV missing, initializing mocking sequence.")

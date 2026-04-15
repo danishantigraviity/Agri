@@ -26,6 +26,6 @@ for folder in os.listdir(dataset_root):
 
 df = pd.DataFrame(data)
 df.to_csv(output_csv, index=False)
-print(f"✅ Created hierarchical manifest: {output_csv}")
-print(f"🧬 Detected Crops: {df['crop'].unique()}")
-print(f"📸 Total Images: {len(df)}")
+print(f"[SUCCESS] Created hierarchical manifest: {output_csv}")
+print(f"[INFO] Detected Crops: {df['crop'].unique()}")
+print(f"[LOG] Total Images: {len(df)}")
