@@ -68,9 +68,17 @@ exports.analyzeSoil = async (req, res) => {
     res.status(201).json({
       success: true,
       data: {
-        ...analysis._doc,
+        _id: analysis._id,
+        farmer: analysis.farmer,
+        parameters: analysis.parameters,
+        predicted_crop: mlData.predicted_crop,
+        confidence: mlData.confidence,
+        fertility_score: mlData.fertility_score,
         yield_prediction: mlData.yield_prediction,
-        sowing_guide: mlData.sowing_guide
+        sowing_guide: mlData.sowing_guide,
+        top_suggestions: mlData.top_suggestions,
+        insights: mlData.insights,
+        timestamp: analysis.timestamp
       }
     });
   } catch (error) {

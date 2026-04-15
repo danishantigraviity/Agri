@@ -242,7 +242,7 @@ export default function SoilAnalysisPage() {
                         <h3 className="text-5xl font-black mb-1">{result.predicted_crop}</h3>
                         <div className="flex items-center gap-2 text-primary-100 font-bold">
                            <CheckCircle2 className="w-4 h-4" />
-                           {result.confidence}% Match Probability
+                           {result.confidence || 0}% Match Probability
                         </div>
                      </div>
                    </div>
@@ -270,11 +270,11 @@ export default function SoilAnalysisPage() {
                    <div className="mt-auto flex items-center justify-between bg-black/20 p-4 rounded-2xl border border-white/10">
                       <div>
                          <p className="text-[10px] font-black uppercase text-primary-200 opacity-60">Fertility Score</p>
-                         <p className="text-2xl font-black">{result.fertility_score}/100</p>
+                         <p className="text-2xl font-black">{result.fertility_score || 0}/100</p>
                       </div>
                       <div className="text-right">
-                         <div className={`px-3 py-1 rounded-full text-[10px] font-black uppercase ${result.fertility_score > 70 ? 'bg-emerald-500/30 text-emerald-200' : 'bg-amber-500/30 text-amber-200'}`}>
-                           {result.fertility_score > 70 ? 'High Fertility' : 'Medium Health'}
+                         <div className={`px-3 py-1 rounded-full text-[10px] font-black uppercase ${(result.fertility_score || 0) > 70 ? 'bg-emerald-500/30 text-emerald-200' : 'bg-amber-500/30 text-amber-200'}`}>
+                           {(result.fertility_score || 0) > 70 ? 'High Fertility' : 'Medium Health'}
                          </div>
                       </div>
                    </div>
@@ -289,7 +289,7 @@ export default function SoilAnalysisPage() {
                  </h3>
                  <div className="h-48">
                     <ResponsiveContainer width="100%" height="100%">
-                      <RadarChart outerRadius={70} data={result.top_suggestions.map(s => ({ subject: s.crop, A: s.score, fullMark: 100 }))}>
+                      <RadarChart outerRadius={70} data={(result.top_suggestions || []).map(s => ({ subject: s.crop, A: s.score, fullMark: 100 }))}>
                         <PolarGrid />
                         <PolarAngleAxis dataKey="subject" tick={{ fontSize: 10, fontWeight: 700, fill: '#374151' }} />
                         <Radar name="Compatibility" dataKey="A" stroke="#16a34a" fill="#16a34a" fillOpacity={0.6} />
@@ -297,14 +297,14 @@ export default function SoilAnalysisPage() {
                     </ResponsiveContainer>
                  </div>
                  <div className="space-y-3">
-                   {result.top_suggestions.map((s, idx) => (
+                   {(result.top_suggestions || []).map((s, idx) => (
                       <div key={idx} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
                         <span className="text-sm font-black text-gray-700">{s.crop}</span>
                         <div className="flex items-center gap-2">
                            <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
-                              <div className="h-full bg-primary-600" style={{ width: `${s.score}%` }}></div>
+                              <div className="h-full bg-primary-600" style={{ width: `${s.score || 0}%` }}></div>
                            </div>
-                           <span className="text-xs font-black text-primary-700">{s.score}%</span>
+                           <span className="text-xs font-black text-primary-700">{s.score || 0}%</span>
                         </div>
                       </div>
                    ))}
@@ -318,7 +318,7 @@ export default function SoilAnalysisPage() {
                     AI Actionable Insights
                  </h3>
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {result.insights.map((insight, idx) => (
+                    {(result.insights || []).map((insight, idx) => (
                       <div key={idx} className="flex gap-4 p-4 bg-white rounded-2xl shadow-sm border border-emerald-100">
                         <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center shrink-0">
                            <AlertTriangle className="w-5 h-5 text-emerald-600" />
@@ -326,7 +326,7 @@ export default function SoilAnalysisPage() {
                         <p className="text-sm text-emerald-800 font-medium leading-relaxed">{insight}</p>
                       </div>
                     ))}
-                    {result.insights.length === 0 && (
+                    {(!result.insights || result.insights.length === 0) && (
                       <div className="md:col-span-2 text-center py-4 bg-white rounded-2xl border border-primary-100">
                          <p className="text-emerald-700 font-bold">Soil is perfectly balanced! No immediate corrections needed.</p>
                       </div>
@@ -384,14 +384,17 @@ export default function SoilAnalysisPage() {
                   history.map((h) => (
                     <div key={h._id} className="p-4 bg-gray-50 rounded-2xl border border-gray-100 hover:border-primary-200 transition-all group cursor-pointer">
                       <div className="flex justify-between items-start mb-2">
-                        <span className="text-xs font-black text-primary-700 bg-primary-100 px-2 py-0.5 rounded-lg">{h.predictedCrop}</span>
+                        <span className="text-xs font-black text-primary-700 bg-primary-100 px-2 py-0.5 rounded-lg">{h.predictedCrop || h.predicted_crop}</span>
                         <span className="text-[10px] font-bold text-gray-400">
-                          {h.timestamp || h.createdAt ? format(new Date(h.timestamp || h.createdAt), 'MMM d, h:mm a') : 'Recently'}
+                          {h.timestamp || h.createdAt ? (function() {
+                            try { return format(new Date(h.timestamp || h.createdAt), 'MMM d, h:mm a'); }
+                            catch (e) { return 'Recently'; }
+                          })() : 'Recently'}
                         </span>
                       </div>
                       <div className="flex items-center gap-4">
                         <div className="text-[10px] font-bold text-gray-500">
-                          N:{h.parameters.N} P:{h.parameters.P} K:{h.parameters.K}
+                          N:{h.parameters?.N || 0} P:{h.parameters?.P || 0} K:{h.parameters?.K || 0}
                         </div>
                         <div className="ml-auto w-6 h-6 rounded-full bg-white flex items-center justify-center text-primary-600 group-hover:bg-primary-600 group-hover:text-white transition-all shadow-sm">
                            <ChevronRight className="w-3.5 h-3.5" />
