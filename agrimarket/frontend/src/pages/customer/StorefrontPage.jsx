@@ -354,14 +354,14 @@ function FilterDropdown({ priceRange, setPriceRange, isOrganic, setIsOrganic, on
       {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all shadow-sm active:scale-95
-          ${activeFilterCount > 0
-            ? 'bg-primary-600 text-white border border-primary-600 hover:bg-primary-700'
-            : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 hover:border-gray-300'
-          }`}
+        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all shadow-sm active:scale-95 border"
+        style={activeFilterCount > 0
+          ? { backgroundColor: '#16a34a', color: '#fff', borderColor: '#16a34a' }
+          : { backgroundColor: '#fff', color: '#374151', borderColor: '#e5e7eb' }
+        }
       >
         <SlidersHorizontal className="w-4 h-4" />
-        Filters
+        <span>Filters</span>
         {activeFilterCount > 0 && (
           <span className="w-5 h-5 bg-white text-primary-700 text-[10px] font-black rounded-full flex items-center justify-center -mr-1">
             {activeFilterCount}
