@@ -130,7 +130,7 @@ export default function DashboardLayout({ role }) {
 
           <div className="flex items-center gap-3 sm:gap-5 ml-auto">
             
-            <button className="relative w-11 h-11 rounded-2xl flex items-center justify-center bg-gray-50 bg-white dark:bg-gray-800 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 active:scale-90 transition-all border border-gray-100 dark:border-gray-700 group">
+            <button className="relative w-11 h-11 rounded-2xl flex items-center justify-center bg-gray-50 dark:bg-gray-800 text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 active:scale-90 transition-all border border-gray-100 dark:border-gray-700 group">
               <Bell className="w-5 h-5 group-hover:rotate-12 transition-transform" />
               <span className="absolute top-3 right-3 w-2 h-2 bg-rose-500 rounded-full border-2 border-white dark:border-gray-800 animate-pulse" />
             </button>

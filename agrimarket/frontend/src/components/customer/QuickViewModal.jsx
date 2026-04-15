@@ -29,13 +29,13 @@ export default function QuickViewModal({ product, onClose, isOpen }) {
         {/* Close Button */}
         <button 
           onClick={onClose}
-          className="absolute top-6 right-6 z-20 w-12 h-12 bg-white/80 bg-white dark:bg-gray-800/80 backdrop-blur-md rounded-2xl flex items-center justify-center text-gray-500 hover:text-primary-800 dark:hover:text-white transition-all shadow-lg active:scale-95"
+          className="absolute top-6 right-6 z-20 w-12 h-12 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl flex items-center justify-center text-gray-500 hover:text-primary-800 dark:hover:text-white transition-all shadow-lg active:scale-95"
         >
           <X className="w-6 h-6" />
         </button>
 
         {/* Left: Images Side */}
-        <div className="w-full md:w-1/2 bg-gray-50 bg-white dark:bg-gray-800/50 p-8 flex flex-col items-center justify-center gap-6 relative">
+        <div className="w-full md:w-1/2 bg-gray-50 dark:bg-gray-800/50 p-8 flex flex-col items-center justify-center gap-6 relative">
           <div className="relative group w-full aspect-square rounded-[2.5rem] overflow-hidden bg-white dark:bg-gray-800 shadow-xl border border-gray-100 dark:border-gray-700">
             <img 
               src={product.images[activeImage]} 
@@ -46,7 +46,7 @@ export default function QuickViewModal({ product, onClose, isOpen }) {
               <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 flex justify-between opacity-0 group-hover:opacity-100 transition-opacity">
                 <button 
                   onClick={() => setActiveImage((prev) => (prev > 0 ? prev - 1 : product.images.length - 1))}
-                  className="w-10 h-10 bg-white/90 bg-white dark:bg-gray-800/90 rounded-xl flex items-center justify-center shadow-md active:scale-90"
+                  className="w-10 h-10 bg-white/90 dark:bg-gray-800/90 rounded-xl flex items-center justify-center shadow-md active:scale-90"
                 >
                   <ChevronLeft className="w-5 h-5 text-gray-700 dark:text-gray-300" />
                 </button>
@@ -79,7 +79,7 @@ export default function QuickViewModal({ product, onClose, isOpen }) {
         <div className="w-full md:w-1/2 p-8 md:p-12 overflow-y-auto no-scrollbar flex flex-col bg-white dark:bg-gray-900">
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-4">
-              <span className="px-3 py-1 bg-primary-100 bg-white dark:bg-gray-900/30 text-primary-700 dark:text-primary-400 text-[10px] font-black uppercase tracking-widest rounded-lg">
+              <span className="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 text-[10px] font-black uppercase tracking-widest rounded-lg">
                 Verified Fresh
               </span>
               {product.isOrganic && (
@@ -106,7 +106,7 @@ export default function QuickViewModal({ product, onClose, isOpen }) {
             </div>
           </div>
 
-          <div className="mb-8 p-6 bg-gray-50 bg-white dark:bg-gray-800/30 rounded-[2rem] border border-gray-100 dark:border-gray-800">
+          <div className="mb-8 p-6 bg-gray-50 dark:bg-gray-800/30 rounded-[2rem] border border-gray-100 dark:border-gray-800">
              <div className="flex items-baseline gap-3 mb-2">
                 <span className="text-4xl font-black text-primary-600 dark:text-primary-400 tracking-tighter">₹{product.price.selling}</span>
                 <span className="text-sm font-bold text-gray-400">/ {product.price.unit}</span>
@@ -126,7 +126,7 @@ export default function QuickViewModal({ product, onClose, isOpen }) {
             </div>
             
             <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 bg-gray-50 bg-white dark:bg-gray-800/30 rounded-2xl border border-gray-100 dark:border-gray-800">
+              <div className="p-4 bg-gray-50 dark:bg-gray-800/30 rounded-2xl border border-gray-100 dark:border-gray-800">
                 <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mb-1">Standard Unit</p>
                 <p className="text-xs font-bold text-primary-800 dark:text-white uppercase tracking-tighter">{product.price.unit}</p>
               </div>
@@ -138,7 +138,7 @@ export default function QuickViewModal({ product, onClose, isOpen }) {
           </div>
 
           <div className="mt-auto pt-8 border-t border-gray-50 dark:border-gray-800 flex flex-col sm:flex-row items-center gap-6">
-            <div className="flex items-center bg-gray-100 bg-white dark:bg-gray-800 rounded-2xl p-1.5 h-16 w-full sm:w-auto">
+            <div className="flex items-center bg-gray-100 dark:bg-gray-800 rounded-2xl p-1.5 h-16 w-full sm:w-auto">
               <button 
                 onClick={() => setQuantity(q => Math.max(1, q-1))}
                 className="w-12 h-12 rounded-xl flex items-center justify-center text-gray-500 hover:bg-white dark:hover:bg-gray-700 transition-all active:scale-90"
@@ -156,7 +156,7 @@ export default function QuickViewModal({ product, onClose, isOpen }) {
 
             <button 
               onClick={handleAddToCart}
-              className="flex-1 w-full h-16 bg-white hover:bg-gray-50 text-white rounded-2xl font-black text-sm uppercase tracking-[0.2em] shadow-xl shadow-primary-600/20 active:scale-[0.98] transition-all flex items-center justify-center gap-3"
+              className="flex-1 w-full h-16 bg-primary-600 hover:bg-primary-700 text-white rounded-2xl font-black text-sm uppercase tracking-[0.2em] shadow-xl shadow-primary-600/20 active:scale-[0.98] transition-all flex items-center justify-center gap-3"
             >
               <ShoppingCart className="w-5 h-5" />
               Add to Basket
