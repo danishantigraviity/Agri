@@ -2,12 +2,18 @@ const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer');
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-  secure: true,
-});
+// Support both CLOUDINARY_URL (single env var) and individual env vars
+if (process.env.CLOUDINARY_URL) {
+  // Cloudinary SDK auto-reads CLOUDINARY_URL from process.env
+  cloudinary.config();
+} else {
+  cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+    secure: true,
+  });
+}
 
 // Product image storage
 const productStorage = new CloudinaryStorage({
