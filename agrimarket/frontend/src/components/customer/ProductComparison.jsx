@@ -12,8 +12,8 @@ export default function ProductComparison() {
       <div className="bg-white/90 backdrop-blur-xl rounded-[2.5rem] border border-gray-200 shadow-[0_20px_60px_rgba(0,0,0,0.15)] overflow-hidden animate-in slide-in-from-bottom-10 lg:animate-in lg:fade-in duration-500">
         <div className="p-5 flex items-center justify-between border-b border-gray-100 bg-gray-50/50">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white rounded-2xl flex items-center justify-center shadow-lg shadow-primary-200">
-              <ArrowRightLeft className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 bg-white rounded-2xl flex items-center justify-center shadow-lg shadow-primary-200/50 border border-primary-50">
+              <ArrowRightLeft className="w-5 h-5 text-primary-600" />
             </div>
             <div>
               <h3 className="text-sm font-black text-primary-800 uppercase tracking-tight">Compare Products</h3>
@@ -27,7 +27,14 @@ export default function ProductComparison() {
             >
               Clear All
             </button>
-            <button className="hidden sm:flex items-center gap-2 px-5 py-2.5 bg-primary-600 text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-gray-50 transition-all active:scale-95 shadow-md">
+            <button 
+              disabled={items.length < 2}
+              className={`hidden sm:flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all shadow-lg active:scale-95
+                ${items.length >= 2 
+                  ? 'bg-primary-600 text-white hover:bg-primary-700 shadow-primary-600/20' 
+                  : 'bg-gray-100 text-gray-400 cursor-not-allowed shadow-none'
+                }`}
+            >
               Start Full Comparison
             </button>
           </div>
