@@ -1,6 +1,7 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import './CustomDatePicker.css';
 import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 
@@ -17,29 +18,31 @@ export default function CustomDatePicker({ startDate, endDate, setDateRange }) {
   const parsedEnd = endDate ? parseISO(endDate) : null;
 
   const CustomHeader = ({ date, decreaseMonth, increaseMonth, prevMonthButtonDisabled, nextMonthButtonDisabled }) => (
-    <div className="flex items-center justify-between px-1 py-1 mb-4">
+    <div className="flex items-center justify-between px-1 py-1 mb-3">
       <button
         onClick={decreaseMonth}
         disabled={prevMonthButtonDisabled}
-        className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400 transition-all disabled:opacity-20 active:scale-90"
+        type="button"
+        className="w-8 h-8 rounded-xl flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400 hover:text-gray-600 transition-all disabled:opacity-20 active:scale-90"
       >
-        <ChevronLeft className="w-4 h-4" strokeWidth={3} />
+        <ChevronLeft className="w-4 h-4" strokeWidth={2.5} />
       </button>
-      <span className="text-sm font-black text-primary-900 dark:text-white capitalize font-display tracking-tight">
+      <span className="text-sm font-black text-gray-800 dark:text-white capitalize tracking-tight">
         {format(date, 'MMMM yyyy')}
       </span>
       <button
         onClick={increaseMonth}
         disabled={nextMonthButtonDisabled}
-        className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400 transition-all disabled:opacity-20 active:scale-90"
+        type="button"
+        className="w-8 h-8 rounded-xl flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-400 hover:text-gray-600 transition-all disabled:opacity-20 active:scale-90"
       >
-        <ChevronRight className="w-4 h-4" strokeWidth={3} />
+        <ChevronRight className="w-4 h-4" strokeWidth={2.5} />
       </button>
     </div>
   );
 
   return (
-    <div className="relative group min-w-[260px]">
+    <div className="relative group">
       <DatePicker
         selected={parsedStart}
         onChange={onChange}
@@ -47,13 +50,16 @@ export default function CustomDatePicker({ startDate, endDate, setDateRange }) {
         endDate={parsedEnd}
         selectsRange
         isClearable
-        placeholderText="dd-mm-yyyy - dd-mm-yyyy"
+        placeholderText="Select date range..."
         renderCustomHeader={CustomHeader}
-        className="w-full bg-white dark:bg-gray-800 pl-11 pr-4 py-3 rounded-[12px] border border-gray-100 dark:border-gray-700 shadow-sm text-xs font-bold text-gray-700 dark:text-gray-200 outline-none hover:border-primary-300 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/10 transition-all cursor-pointer"
-        dateFormat="dd-MM-yyyy"
-        calendarClassName="custom-datepicker"
+        className="w-full bg-white dark:bg-gray-800 pl-10 pr-8 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 text-sm font-semibold text-gray-700 dark:text-gray-200 outline-none hover:border-primary-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/10 transition-all cursor-pointer placeholder:text-gray-400 placeholder:font-medium"
+        dateFormat="dd MMM yyyy"
+        calendarClassName="agri-calendar"
+        todayButton="Today"
+        showPopperArrow={false}
+        popperPlacement="bottom-end"
       />
-      <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-hover:text-primary-500 transition-colors pointer-events-none" />
+      <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-hover:text-primary-500 transition-colors pointer-events-none" />
     </div>
   );
 }

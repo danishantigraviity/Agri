@@ -365,18 +365,28 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
 
 /* ─── Filter Button States ─── */
 /* These use !important to beat Tailwind's preflight (button { background: transparent }) */
-.filter-btn-active {
+.filter-btn-active,
+.filter-btn-active:focus,
+.filter-btn-active:active,
+.filter-btn-active:focus-visible {
   background-color: #16a34a !important;
   color: #ffffff !important;
   border-color: #16a34a !important;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
 }
 .filter-btn-active:hover {
   background-color: #15803d !important;
 }
-.filter-btn-inactive {
+.filter-btn-inactive,
+.filter-btn-inactive:focus,
+.filter-btn-inactive:active,
+.filter-btn-inactive:focus-visible {
   background-color: #ffffff !important;
   color: #374151 !important;
   border-color: #e5e7eb !important;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
 }
 .filter-btn-inactive:hover {
   background-color: #f9fafb !important;
@@ -435,49 +445,4 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
   box-shadow: 0 3px 10px rgba(22,163,74,0.3);
 }
 
-/* Custom DatePicker Styles */
-.custom-datepicker {
-  @apply bg-white dark:bg-gray-900 border-0 shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-[12px] p-5 font-sans ring-1 ring-gray-900/5 dark:ring-white/10;
-}
 
-.custom-datepicker .react-datepicker__header {
-  @apply bg-transparent border-b-0 pt-0 rounded-t-[12px];
-}
-
-.custom-datepicker .react-datepicker__day-names {
-  @apply mt-2 mb-2 flex justify-between px-1;
-}
-
-.custom-datepicker .react-datepicker__day-name {
-  @apply text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500 w-9 m-0;
-}
-
-.custom-datepicker .react-datepicker__month {
-  @apply m-0;
-}
-
-.custom-datepicker .react-datepicker__week {
-  @apply flex justify-between mt-1;
-}
-
-.custom-datepicker .react-datepicker__day {
-  @apply w-9 h-9 leading-9 m-0 rounded-xl text-sm font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200 outline-none;
-}
-
-.custom-datepicker .react-datepicker__day--selected,
-.custom-datepicker .react-datepicker__day--in-selecting-range,
-.custom-datepicker .react-datepicker__day--in-range {
-  @apply bg-primary-600 text-white shadow-lg shadow-primary-600/20 hover:bg-primary-700 hover:text-white rounded-xl;
-}
-
-.custom-datepicker .react-datepicker__day--keyboard-selected {
-  @apply bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-300 rounded-xl;
-}
-
-.custom-datepicker .react-datepicker__day--outside-month {
-  @apply text-gray-300 dark:text-gray-600 pointer-events-none opacity-40 font-medium;
-}
-
-.custom-datepicker .react-datepicker__triangle {
-  @apply hidden;
-}

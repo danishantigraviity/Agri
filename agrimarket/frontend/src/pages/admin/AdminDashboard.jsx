@@ -10,10 +10,11 @@ import {
   ResponsiveContainer, PieChart, Pie, Cell
 } from 'recharts';
 import { 
-  Plus, UserPlus, ShoppingCart, Tag, Info, History, Calendar
+  Plus, UserPlus, ShoppingCart, Tag, Info, History
 } from 'lucide-react';
 import api from '../../services/api';
 import { format } from 'date-fns';
+import CustomDatePicker from '../../components/common/CustomDatePicker';
 
 const StatCard = ({ icon: Icon, label, value, sub, gradient, to }) => (
   <Link 
@@ -92,20 +93,11 @@ export default function AdminDashboard() {
           <p className="text-gray-500 dark:text-gray-400 mt-1">Platform overview and management</p>
         </div>
         
-        <div className="flex items-center gap-2 bg-white dark:bg-gray-800 p-1.5 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm">
-          <Calendar className="w-4 h-4 text-gray-400 ml-2" />
-          <input 
-            type="date" 
-            value={dateRange.start}
-            onChange={(e) => setDateRange(prev => ({ ...prev, start: e.target.value }))}
-            className="bg-transparent text-[10px] font-bold text-gray-600 dark:text-gray-300 focus:outline-none"
-          />
-          <span className="text-gray-300 px-1">/</span>
-          <input 
-            type="date" 
-            value={dateRange.end}
-            onChange={(e) => setDateRange(prev => ({ ...prev, end: e.target.value }))}
-            className="bg-transparent text-[10px] font-bold text-gray-600 dark:text-gray-300 focus:outline-none"
+        <div className="w-64">
+          <CustomDatePicker
+            startDate={dateRange.start}
+            endDate={dateRange.end}
+            setDateRange={setDateRange}
           />
         </div>
       </div>
