@@ -122,16 +122,96 @@ const UPI_APPS = [
   { id: 'bhim', name: 'BHIM UPI' },
 ];
 
+/* ═══════════ Bank SVG Logos ═══════════ */
+const SbiLogo = () => (
+  <svg viewBox="0 0 48 48" className="w-full h-full drop-shadow-sm">
+    <rect width="48" height="48" fill="transparent" />
+    <circle cx="24" cy="24" r="16" fill="#0055A5" />
+    <circle cx="24" cy="24" r="5" fill="#FFFFFF" />
+    <rect x="22" y="24" width="4" height="17" fill="#FFFFFF" />
+  </svg>
+);
+
+const HdfcLogo = () => (
+  <svg viewBox="0 0 48 48" className="w-full h-full drop-shadow-sm">
+    <rect width="48" height="48" fill="transparent" />
+    <rect x="8" y="8" width="32" height="32" fill="#004C8F" />
+    <rect x="13" y="13" width="22" height="22" fill="#ED232A" />
+    <rect x="20" y="8" width="8" height="32" fill="#004C8F" />
+    <rect x="8" y="20" width="32" height="8" fill="#004C8F" />
+  </svg>
+);
+
+const IciciLogo = () => (
+  <svg viewBox="0 0 48 48" className="w-full h-full drop-shadow-sm">
+    <rect width="48" height="48" fill="transparent" />
+    <path d="M16 14 L32 14" stroke="#F26522" strokeWidth="4" strokeLinecap="round" />
+    <path d="M24 14 L24 34" stroke="#F26522" strokeWidth="5" />
+    <path d="M16 34 L32 34" stroke="#F26522" strokeWidth="4" strokeLinecap="round" />
+  </svg>
+);
+
+const AxisLogo = () => (
+  <svg viewBox="0 0 48 48" className="w-full h-full drop-shadow-sm">
+    <rect width="48" height="48" fill="transparent" />
+    <path d="M12 36 L24 12 L36 36" fill="none" stroke="#97144D" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M24 12 L33 36" fill="none" stroke="#ED1B24" strokeWidth="4" strokeLinecap="round"/>
+  </svg>
+);
+
+const KotakLogo = () => (
+  <svg viewBox="0 0 48 48" className="w-full h-full drop-shadow-sm">
+    <rect width="48" height="48" fill="transparent" />
+    <circle cx="24" cy="24" r="18" fill="#ED1C24" />
+    <path d="M23 16 L17 16 L17 32 L23 32 L23 26 L28 32 L32 32 L26 24 L32 16 L28 16 L23 22 Z" fill="#FFFFFF" />
+  </svg>
+);
+
+const BobLogo = () => (
+  <svg viewBox="0 0 48 48" className="w-full h-full drop-shadow-sm">
+    <rect width="48" height="48" fill="transparent" />
+    <path d="M24 8 L38 24 L24 40 L10 24 Z" fill="#F05A28" />
+    <path d="M19 16 L28 24 L19 32" fill="none" stroke="#FFFFFF" strokeWidth="3" />
+  </svg>
+);
+
+const PnbLogo = () => (
+  <svg viewBox="0 0 48 48" className="w-full h-full drop-shadow-sm">
+    <rect width="48" height="48" fill="transparent" />
+    <circle cx="24" cy="24" r="16" fill="none" stroke="#F6A01A" strokeWidth="5" />
+    <text x="24" y="32" textAnchor="middle" fill="#A32020" fontSize="20" fontWeight="900" fontFamily="Arial">P</text>
+  </svg>
+);
+
+const CanaraLogo = () => (
+  <svg viewBox="0 0 48 48" className="w-full h-full drop-shadow-sm">
+    <rect width="48" height="48" fill="transparent" />
+    <path d="M12 16 L36 16 M12 24 L36 24 M12 32 L36 32" stroke="#005B8F" strokeWidth="4" strokeLinecap="round" />
+    <circle cx="24" cy="24" r="16" fill="none" stroke="#F2A900" strokeWidth="5" />
+  </svg>
+);
+
+const BANK_LOGO_MAP = {
+  sbi: SbiLogo,
+  hdfc: HdfcLogo,
+  icici: IciciLogo,
+  axis: AxisLogo,
+  kotak: KotakLogo,
+  bob: BobLogo,
+  pnb: PnbLogo,
+  canara: CanaraLogo
+};
+
 /* ═══════════ Banks ═══════════ */
 const BANKS = [
-  { id: 'sbi', name: 'State Bank of India', short: 'SBI' },
+  { id: 'sbi', name: 'State Bank', short: 'SBI' },
   { id: 'hdfc', name: 'HDFC Bank', short: 'HDFC' },
   { id: 'icici', name: 'ICICI Bank', short: 'ICICI' },
-  { id: 'axis', name: 'Axis Bank', short: 'AXIS' },
-  { id: 'kotak', name: 'Kotak Mahindra', short: 'KOTAK' },
-  { id: 'bob', name: 'Bank of Baroda', short: 'BOB' },
-  { id: 'pnb', name: 'Punjab National Bank', short: 'PNB' },
-  { id: 'canara', name: 'Canara Bank', short: 'CANARA' },
+  { id: 'axis', name: 'Axis Bank', short: 'Axis' },
+  { id: 'kotak', name: 'Kotak Mahindra', short: 'Kotak' },
+  { id: 'bob', name: 'Bank of Baroda', short: 'BoB' },
+  { id: 'pnb', name: 'Punjab National', short: 'PNB' },
+  { id: 'canara', name: 'Canara Bank', short: 'Canara' },
 ];
 
 /* ═══════════ QR Modal ═══════════ */
@@ -559,27 +639,33 @@ export function CheckoutPage() {
 
                         {/* Popular Banks Grid */}
                         <div className="grid grid-cols-4 gap-2">
-                          {BANKS.slice(0, 8).map(bank => (
+                          {BANKS.slice(0, 8).map(bank => {
+                            const Logo = BANK_LOGO_MAP[bank.id];
+                            return (
                             <button
                               key={bank.id}
                               type="button"
                               onClick={() => setSelectedBank(bank.id)}
-                              className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border transition-all
+                              className={`relative flex flex-col items-center gap-1.5 p-3 rounded-xl border transition-all
                                 ${selectedBank === bank.id
                                   ? 'border-primary-300 bg-primary-50 shadow-sm'
                                   : 'border-transparent bg-white hover:border-gray-200 hover:shadow-sm'
                                 }`}
                             >
-                              <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-[10px] font-black transition-all
-                                ${selectedBank === bank.id ? 'bg-primary-600 text-white shadow-md' : 'bg-gray-100 text-gray-500'}`}>
-                                {bank.short.slice(0, 3)}
+                              <div className={`w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden transition-all
+                                ${selectedBank === bank.id ? 'ring-2 ring-primary-500 shadow-md scale-105 bg-white' : 'bg-gray-100 border border-gray-100'}`}>
+                                {Logo ? <Logo /> : (
+                                  <span className="text-[10px] font-black text-gray-500">{bank.short}</span>
+                                )}
                               </div>
-                              <span className="text-[9px] font-semibold text-gray-600 leading-tight text-center">{bank.name.split(' ').slice(0, 2).join(' ')}</span>
+                              <span className="text-[9px] font-bold text-gray-700 leading-tight text-center w-full break-words">{bank.name}</span>
                               {selectedBank === bank.id && (
-                                <CheckCircle2 className="w-3.5 h-3.5 text-primary-600 -mt-0.5" />
+                                <div className="absolute top-1 right-1 bg-white rounded-full">
+                                  <CheckCircle2 className="w-3 h-3 text-primary-600 fill-primary-50" />
+                                </div>
                               )}
                             </button>
-                          ))}
+                          )})}
                         </div>
 
                         {selectedBank && (
