@@ -354,11 +354,9 @@ function FilterDropdown({ priceRange, setPriceRange, isOrganic, setIsOrganic, on
       {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all shadow-sm active:scale-95 border"
-        style={activeFilterCount > 0
-          ? { backgroundColor: '#16a34a', color: '#fff', borderColor: '#16a34a' }
-          : { backgroundColor: '#fff', color: '#374151', borderColor: '#e5e7eb' }
-        }
+        className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-transform shadow-sm active:scale-95 border ${
+          activeFilterCount > 0 ? 'filter-btn-active' : 'filter-btn-inactive'
+        }`}
       >
         <SlidersHorizontal className="w-4 h-4" />
         <span>Filters</span>
