@@ -98,7 +98,7 @@ export default function FarmerProducts() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map(p => (
+          {products?.map(p => (
             <div key={p._id} className="group card overflow-hidden border-gray-100 hover:border-primary-100 hover:shadow-2xl hover:shadow-primary-100/30 hover:-translate-y-2 transition-all duration-500">
               <div className="aspect-[16/10] bg-gray-50 relative overflow-hidden">
                 {p.images?.[0] ? (

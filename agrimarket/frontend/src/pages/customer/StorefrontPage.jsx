@@ -560,20 +560,21 @@ export default function StorefrontPage() {
       // Data normalization for medicines
       if (category === 'medicine') {
         return {
-          products: res.data.medicines.map(m => ({
+          products: res.data.medicines?.map(m => ({
             ...m,
             images: [m.image],
             farmer: { name: m.brand, _id: m.brand },
             subcategory: m.type,
             price: { ...m.price, unit: 'pk' }
-          })),
-          pagination: { total: res.results, pages: 1 } // Medicine API currently doesn't provide full pagination
+          })) || [],
+          pagination: { total: res.results || 0, pages: 1 }
         };
       }
       
       return res.data;
     },
-    keepPreviousData: true,
+    // We remove keepPreviousData to ensure that when switching to "Medicines",
+    // the user doesn't see the stale grocery products from the previous category.
   });
 
   const { data: featuredData } = useQuery({

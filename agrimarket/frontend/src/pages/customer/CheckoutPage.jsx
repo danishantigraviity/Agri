@@ -8,6 +8,7 @@ import {
 import api from '../../services/api';
 import useCartStore from '../../store/cartStore';
 import toast from 'react-hot-toast';
+import upiQr from '../../assets/upi_qr.jpg';
 
 /* ═══════════ Card Formatting Helpers ═══════════ */
 const formatCardNumber = (v) => v.replace(/\D/g, '').slice(0, 16).replace(/(.{4})/g, '$1 ').trim();
@@ -137,70 +138,72 @@ const BANKS = [
 function QRModal({ open, onClose, total }) {
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-in fade-in duration-300" onClick={onClose}>
+      <div className="absolute inset-0 bg-primary-950/40 backdrop-blur-md" />
       <div
-        className="relative bg-white rounded-3xl shadow-2xl w-full max-w-sm p-0 overflow-hidden animate-fade-in"
+        className="relative bg-[#f8fbff] rounded-[32px] shadow-2xl w-full max-w-[340px] p-0 overflow-hidden animate-in slide-in-from-bottom-10 duration-500 shadow-primary-900/20"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
-        <div className="bg-gradient-to-br from-primary-600 to-primary-700 text-white px-6 pt-6 pb-8 text-center relative">
-          <button onClick={onClose} className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors">
+        {/* Merchant Header (Google Pay Style) */}
+        <div className="flex flex-col items-center pt-8 pb-4 px-6 bg-[#f8fbff]">
+          <button onClick={onClose} className="absolute top-5 right-5 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100/80 hover:bg-gray-200 text-gray-500 transition-all active:scale-90">
             <X className="w-4 h-4" />
           </button>
-          <ScanLine className="w-8 h-8 mx-auto mb-2 opacity-80" />
-          <h3 className="font-bold text-lg">Scan & Pay</h3>
-          <p className="text-primary-100 text-sm mt-1">Use any UPI app to scan</p>
+          
+          <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-white shadow-xl mb-3">
+             <div className="w-full h-full bg-primary-600 flex items-center justify-center text-white font-black text-xl">D</div>
+          </div>
+          <h3 className="font-black text-gray-800 text-xl tracking-tight">DANISH P</h3>
+          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Verified Merchant</p>
         </div>
 
-        {/* QR Area */}
-        <div className="px-6 -mt-4">
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 text-center">
-            {/* Fake QR Code — generated via CSS grid pattern */}
-            <div className="w-48 h-48 mx-auto bg-white border-2 border-gray-200 rounded-xl p-3 relative">
-              <div className="w-full h-full relative">
-                {/* QR corner markers */}
-                {[
-                  'top-0 left-0', 'top-0 right-0', 'bottom-0 left-0'
-                ].map((pos, i) => (
-                  <div key={i} className={`absolute ${pos} w-8 h-8 border-[3px] border-gray-800 ${i === 0 ? 'rounded-tl-md border-r-0 border-b-0' : i === 1 ? 'rounded-tr-md border-l-0 border-b-0' : 'rounded-bl-md border-r-0 border-t-0'}`}>
-                    <div className={`absolute ${i === 0 ? 'top-1 left-1' : i === 1 ? 'top-1 right-1' : 'bottom-1 left-1'} w-4 h-4 bg-gray-50 rounded-sm`} />
-                  </div>
-                ))}
-                {/* QR pattern grid */}
-                <div className="absolute inset-8 grid grid-cols-8 grid-rows-8 gap-[2px]">
-                  {Array.from({ length: 64 }, (_, i) => (
-                    <div key={i} className={`rounded-[1px] ${Math.random() > 0.45 ? 'bg-gray-50' : 'bg-transparent'}`} />
-                  ))}
-                </div>
-                {/* Center logo */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
-                    <span className="text-white text-lg">₹</span>
-                  </div>
-                </div>
-              </div>
+        {/* QR Content Area */}
+        <div className="px-6 pb-6">
+          <div className="bg-white rounded-[28px] p-6 shadow-xl shadow-blue-500/5 border border-blue-50/50 flex flex-col items-center">
+            {/* Real QR Code Image */}
+            <div className="w-52 h-52 bg-white rounded-2xl overflow-hidden mb-4 relative group">
+              <img 
+                src={upiQr} 
+                alt="Payment QR" 
+                className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" 
+              />
             </div>
-            <p className="text-2xl font-black text-primary-800 mt-4">₹{total}</p>
-            <p className="text-xs text-gray-500 mt-1">agrimarket@upi</p>
+            
+            <div className="w-full flex items-center gap-3 bg-gray-50/80 py-3 px-4 rounded-2xl border border-gray-100">
+              <div className="flex-1">
+                <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-none mb-1 text-left">UPI ID</p>
+                <p className="text-sm font-black text-primary-800 tracking-tight text-left">danishappu33@oksbi</p>
+              </div>
+              <button 
+                onClick={() => { navigator.clipboard.writeText('danishappu33@oksbi'); toast.success('UPI ID Copied'); }}
+                className="text-[10px] font-black text-primary-600 hover:text-primary-700 bg-white border border-primary-100 px-3 py-1.5 rounded-lg transition-all active:scale-95 shadow-sm"
+              >
+                COPY
+              </button>
+            </div>
+
+            <div className="mt-5 text-center">
+              <p className="text-3xl font-black text-primary-800 tracking-tighter leading-none mb-1">₹{total}</p>
+              <p className="text-[9px] font-bold text-green-600 uppercase tracking-[0.2em]">Ready for Scan</p>
+            </div>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="px-6 py-5 text-center">
-          <div className="flex items-center justify-center gap-1 text-[10px] text-gray-400 font-medium uppercase tracking-wider">
-            <Lock className="w-3 h-3" /> Secured by UPI · NPCI
-          </div>
-          <div className="flex justify-center gap-3 mt-3">
+        {/* Unified Payment Footer */}
+        <div className="px-6 py-6 bg-[#f0f4f9] border-t border-gray-100 flex flex-col items-center gap-4">
+          <div className="flex justify-center gap-4 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
             {UPI_APPS.map(app => {
               const Logo = UPI_LOGO_MAP[app.id];
               return (
-                <div key={app.id} className="w-8 h-8 rounded-lg overflow-hidden shadow-sm">
+                <div key={app.id} className="w-7 h-7 rounded-lg overflow-hidden shadow-sm bg-white">
                   {Logo && <Logo />}
                 </div>
               );
             })}
           </div>
+          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+            Scan with any UPI app to pay
+          </p>
         </div>
       </div>
     </div>

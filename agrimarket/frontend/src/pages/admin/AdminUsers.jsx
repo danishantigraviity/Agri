@@ -119,7 +119,7 @@ export default function AdminUsers() {
                     </td>
                   </tr>
                 ) : (
-                  users.map(u => (
+                  users?.map(u => (
                     <tr key={u._id} className="hover:bg-primary-50/50 transition-colors duration-200 group">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div>

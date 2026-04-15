@@ -36,7 +36,7 @@ export default function AddProductPage({ editMode }) {
     try {
       setFetching(true);
       const { data } = await api.get(`/products/${id}`);
-      const p = data.data;
+      const p = data.data.product;
       setForm({
         name: p.name || '',
         description: p.description || '',

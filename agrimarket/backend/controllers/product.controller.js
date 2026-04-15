@@ -169,16 +169,32 @@ const updateProduct = async (req, res) => {
     }
 
     const newImages = req.files?.map((f) => f.path) || [];
-    const updatedData = { ...req.body };
+    const body = { ...req.body };
+    const updatedData = {
+      name: body.name,
+      description: body.description,
+      category: body.category,
+      subcategory: body.subcategory,
+      price: {
+        mrp: Number(body['price.mrp'] || body.price?.mrp || 0),
+        selling: Number(body['price.selling'] || body.price?.selling || 0),
+        unit: body['price.unit'] || body.price?.unit || 'kg',
+      },
+      stock: {
+        quantity: Number(body['stock.quantity'] || body.stock?.quantity || 0),
+      },
+      isOrganic: body.isOrganic === 'true' || body.isOrganic === true,
+      tags: typeof body.tags === 'string' 
+        ? body.tags.split(',').map(t => t.trim()).filter(Boolean) 
+        : (body.tags || []),
+    };
 
     if (newImages.length > 0) {
       updatedData.images = [...(product.images || []), ...newImages];
     }
 
-    // Re-submit for approval on price/stock change
-    if (req.body.price || req.body.name || req.body.description) {
-      updatedData.isApproved = 'pending';
-    }
+    // Re-submit for approval on core changes
+    updatedData.isApproved = 'pending';
 
     const updated = await Product.findByIdAndUpdate(req.params.id, updatedData, {
       new: true,

@@ -94,7 +94,7 @@ export default function AdminFarmers() {
                     </td>
                   </tr>
                 ) : (
-                  farmers.map(f => (
+                  farmers?.map(f => (
                     <tr key={f._id} className="hover:bg-primary-50/50 transition-colors duration-200 group">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center gap-3">
