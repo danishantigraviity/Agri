@@ -106,7 +106,7 @@ export default function SoilAnalysisPage() {
         {/* Input Control Panel */}
         <div className="xl:col-span-2 space-y-8">
           <section className="bg-white rounded-[2.5rem] border border-gray-100 shadow-elevated overflow-hidden">
-            <div className="p-8 border-b border-gray-50 bg-gray-50/50 flex items-center justify-between">
+            <div className="p-6 md:p-8 border-b border-gray-50 bg-gray-50/50 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <h2 className="font-black text-primary-800 flex items-center gap-2">
                 <ThermometerSun className="text-primary-600" />
                 Input Soil Parameters
@@ -114,7 +114,7 @@ export default function SoilAnalysisPage() {
               <button 
                 type="button"
                 onClick={detectWeather}
-                className="text-xs font-black text-primary-600 bg-white px-4 py-2 rounded-xl border border-primary-100 shadow-sm hover:bg-primary-50 transition-all flex items-center gap-2 active:scale-95"
+                className="text-xs font-black text-primary-600 bg-white px-4 py-2 rounded-xl border-2 border-primary-200 shadow-sm hover:bg-primary-50 transition-all flex items-center justify-center gap-2 active:scale-95 w-full md:w-auto"
               >
                 <Wind className="w-3.5 h-3.5 animate-pulse" />
                 Detect Real-time Environment
@@ -198,7 +198,7 @@ export default function SoilAnalysisPage() {
                 <button 
                   type="submit" 
                   disabled={loading}
-                  className="btn-primary px-10 py-4 text-lg group relative overflow-hidden"
+                  className="btn-primary w-full md:w-auto px-10 py-4 text-lg group relative overflow-hidden"
                 >
                   {loading ? (
                     <div className="flex items-center gap-3">

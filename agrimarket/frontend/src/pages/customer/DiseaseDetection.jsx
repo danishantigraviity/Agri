@@ -151,7 +151,7 @@ export default function DiseaseDetection() {
                 onClick={handleDiagnose}
                 disabled={loading || !image}
                 className={`w-full py-6 rounded-[2rem] font-black text-sm uppercase tracking-[0.25em] transition-all duration-500 flex items-center justify-center gap-3 relative overflow-hidden active:scale-[0.97] shadow-xl text-white
-                  ${loading ? 'bg-gray-50 cursor-wait' : 'bg-white hover:bg-gray-50 hover:shadow-primary-600/40'}
+                  ${loading ? 'bg-primary-400 cursor-wait' : 'bg-primary-600 hover:bg-primary-700 hover:shadow-primary-600/40'}
                   ${!image && 'opacity-50 grayscale cursor-not-allowed shadow-none'}`}
               >
                 {loading ? (
@@ -218,7 +218,7 @@ export default function DiseaseDetection() {
                           </div>
                           <div className="h-2 w-full bg-white rounded-full overflow-hidden border border-gray-100 shadow-inner">
                             <div 
-                              className={`h-full transition-all duration-1000 ${i === 0 ? 'bg-white' : 'bg-gray-300'}`}
+                              className={`h-full transition-all duration-1000 ${i === 0 ? 'bg-primary-600' : 'bg-gray-400'}`}
                               style={{ width: item.confidence }}
                             />
                           </div>
@@ -244,7 +244,7 @@ export default function DiseaseDetection() {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between px-4">
                     <h3 className="text-xs font-black uppercase tracking-[0.25em] text-gray-400">Targeted Pharmacy</h3>
-                    <span className="text-[10px] font-black text-white bg-white px-3 py-1 rounded-full">{result.recommendedMedicines?.length} Products</span>
+                    <span className="text-[10px] font-black text-white bg-primary-600 px-3 py-1 rounded-full">{result.recommendedMedicines?.length} Products</span>
                   </div>
                   
                   <div className="grid grid-cols-1 gap-3">
@@ -263,7 +263,7 @@ export default function DiseaseDetection() {
                         </div>
                         <button 
                           onClick={() => handleBuyNow(med)}
-                          className="w-12 h-12 rounded-2xl bg-primary-600 text-white flex items-center justify-center shadow-lg shadow-primary-600/20 hover:bg-gray-50 active:scale-90 transition-all"
+                          className="w-12 h-12 rounded-2xl bg-primary-600 text-white flex items-center justify-center shadow-lg shadow-primary-600/20 hover:bg-primary-700 active:scale-90 transition-all"
                         >
                           <ShoppingBag className="w-5 h-5" />
                         </button>
