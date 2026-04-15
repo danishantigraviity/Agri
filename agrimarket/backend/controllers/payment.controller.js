@@ -2,6 +2,7 @@ const Razorpay = require('razorpay');
 const crypto = require('crypto');
 const Payment = require('../models/Payment');
 const Order = require('../models/Order');
+const { sendEmail, templates } = require('../utils/email');
 
 // Lazy init — only create Razorpay instance when keys are available
 // Prevents server crash on startup if keys are not configured
@@ -107,6 +108,18 @@ const verifyPayment = async (req, res) => {
         razorpaySignature,
       }
     );
+    
+    // Send Success Email to Customer
+    try {
+      const populatedOrder = await Order.findById(orderId).populate('customer', 'name email');
+      const emailContent = templates.orderSuccess(populatedOrder, populatedOrder.customer.name);
+      await sendEmail({
+        to: populatedOrder.customer.email,
+        ...emailContent
+      });
+    } catch (emailErr) {
+      console.error('Failed to send order success email:', emailErr);
+    }
 
     res.json({ success: true, message: 'Payment verified successfully.', data: order });
   } catch (error) {

@@ -1,6 +1,7 @@
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 const User = require('../models/User');
+const { sendEmail, templates } = require('../utils/email');
 
 // @desc    Place order
 // @route   POST /api/orders
@@ -80,6 +81,20 @@ const placeOrder = async (req, res) => {
     });
 
     await order.populate('items.product', 'name images');
+    await order.populate('customer', 'name email');
+
+    // Send Success Email to Customer (COD case)
+    if (paymentMethod === 'cod') {
+      try {
+        const emailContent = templates.orderSuccess(order, req.user.name);
+        await sendEmail({
+          to: req.user.email,
+          ...emailContent
+        });
+      } catch (emailErr) {
+        console.error('Failed to send COD order success email:', emailErr);
+      }
+    }
 
     res.status(201).json({
       success: true,
@@ -179,6 +194,36 @@ const updateOrderStatus = async (req, res) => {
     }
 
     await order.save();
+
+    // Notify Farmers on Delivery
+    if (status === 'delivered') {
+      try {
+        const fullOrder = await Order.findById(order._id).populate('customer', 'name');
+        
+        // Group items by farmer
+        const farmerItemsMap = {};
+        for (const item of order.items) {
+          const fid = item.farmer.toString();
+          if (!farmerItemsMap[fid]) farmerItemsMap[fid] = [];
+          farmerItemsMap[fid].push(item);
+        }
+
+        // Send email to each farmer
+        for (const [fid, items] of Object.entries(farmerItemsMap)) {
+          const farmer = await User.findById(fid);
+          if (farmer && farmer.email && farmer.notifications?.email !== false) {
+            const emailContent = templates.productDelivered(fullOrder, farmer.name, items);
+            await sendEmail({
+              to: farmer.email,
+              ...emailContent
+            });
+          }
+        }
+      } catch (emailErr) {
+        console.error('Failed to send farmer delivery emails:', emailErr);
+      }
+    }
+
     res.json({ success: true, data: order });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -274,6 +319,8 @@ const getFarmerAnalytics = async (req, res) => {
 
     const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
     const fourteenDaysAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000);
+
+    const farmerId = req.user._id;
 
     const [
       totals, statusBreakdown, dailyRevenue, topProducts, 
