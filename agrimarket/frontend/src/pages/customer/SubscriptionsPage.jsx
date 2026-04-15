@@ -42,7 +42,7 @@ export default function SubscriptionsPage() {
         </div>
         <Link 
           to="/" 
-          className="flex items-center gap-2.5 px-6 py-3 bg-primary-600 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-gray-50 hover:shadow-xl hover:shadow-primary-600/30 active:scale-95 transition-all shadow-lg"
+          className="flex items-center gap-2.5 px-6 py-3 bg-primary-600 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-primary-700 hover:shadow-xl hover:shadow-primary-600/30 active:scale-95 transition-all shadow-lg"
         >
           <Plus className="w-4 h-4" strokeWidth={3} /> New Plan
         </Link>
@@ -69,7 +69,7 @@ export default function SubscriptionsPage() {
 
           <Link 
             to="/" 
-            className="flex items-center gap-2.5 px-8 py-4 bg-primary-600 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-gray-50 hover:shadow-xl hover:shadow-primary-600/30 active:scale-95 transition-all shadow-lg"
+            className="flex items-center gap-2.5 px-8 py-4 bg-primary-600 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-primary-700 hover:shadow-xl hover:shadow-primary-600/30 active:scale-95 transition-all shadow-lg"
           >
             Start Your First Plan <ArrowRight className="w-4 h-4" />
           </Link>

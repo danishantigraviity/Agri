@@ -155,7 +155,7 @@ export default function AdminUsers() {
                             className={`inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-xl transition-all active:scale-95 shadow-sm
                               ${u.isActive 
                                 ? 'bg-white text-red-600 border border-red-100 hover:bg-red-50' 
-                                : 'bg-primary-600 text-white hover:bg-gray-50 shadow-primary-200'
+                                : 'bg-primary-600 text-white hover:bg-primary-700 shadow-primary-200'
                               }`}
                           >
                             {u.isActive ? <><UserX className="w-3.5 h-3.5"/> Deactivate</> : <><UserCheck className="w-3.5 h-3.5"/> Activate</>}

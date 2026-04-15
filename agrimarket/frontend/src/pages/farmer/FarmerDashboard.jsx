@@ -151,7 +151,7 @@ export default function FarmerDashboard() {
           <button className="flex items-center gap-2.5 px-5 py-3 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:shadow-md active:scale-95 transition-all">
             <BarChart2 className="w-4 h-4 text-primary-600" /> Business Insights
           </button>
-          <Link to="/farmer/products/add" className="flex items-center gap-2.5 px-6 py-3 bg-primary-600 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-gray-50 hover:shadow-xl hover:shadow-primary-600/30 active:scale-95 transition-all">
+          <Link to="/farmer/products/add" className="flex items-center gap-2.5 px-6 py-3 bg-primary-600 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-primary-700 hover:shadow-xl hover:shadow-primary-600/30 active:scale-95 transition-all">
             <Plus className="w-4 h-4" strokeWidth={3} /> List Product
           </Link>
         </div>

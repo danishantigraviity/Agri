@@ -52,7 +52,7 @@ export default function FarmerProducts() {
           <h1 className="text-2xl font-black text-primary-800 tracking-tight">My Catalog</h1>
           <p className="text-sm text-gray-500 mt-1">Manage your storefront and product availability</p>
         </div>
-        <Link to="/farmer/products/add" className="flex items-center gap-2 px-5 py-2.5 bg-primary-600 text-white rounded-2xl text-sm font-bold hover:bg-gray-50 hover:shadow-xl hover:shadow-primary-200/50 transition-all active:scale-95 group">
+        <Link to="/farmer/products/add" className="flex items-center gap-2 px-5 py-2.5 bg-primary-600 text-white rounded-2xl text-sm font-bold hover:bg-primary-700 hover:shadow-xl hover:shadow-primary-200/50 transition-all active:scale-95 group">
           <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform" />
           Add Product
         </Link>
@@ -91,7 +91,7 @@ export default function FarmerProducts() {
           <p className="text-sm text-gray-500 max-w-sm mb-8 leading-relaxed">
             {status ? `You don't have any products currently in '${status}' status.` : "You haven't added any products to your catalog yet. Start selling today!"}
           </p>
-          <Link to="/farmer/products/add" className="flex items-center gap-2 px-8 py-3 bg-primary-600 text-white rounded-2xl text-sm font-bold shadow-lg shadow-primary-200 hover:bg-gray-50 hover:-translate-y-1 transition-all active:scale-95">
+          <Link to="/farmer/products/add" className="flex items-center gap-2 px-8 py-3 bg-primary-600 text-white rounded-2xl text-sm font-bold shadow-lg shadow-primary-200 hover:bg-primary-700 hover:-translate-y-1 transition-all active:scale-95">
             <Plus className="w-5 h-5" />
             Add Your First Product
           </Link>

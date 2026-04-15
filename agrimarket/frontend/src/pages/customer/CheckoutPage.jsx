@@ -231,7 +231,7 @@ export function CheckoutPage() {
   if (items.length === 0) return (
     <div className="page-container py-16 text-center">
       <p className="text-gray-500 mb-4">Your cart is empty.</p>
-      <Link to="/" className="btn-primary btn-sm">Shop Now</Link>
+      <Link to="/" className="btn-primary px-8 py-3 rounded-xl text-sm font-black uppercase tracking-widest hover:bg-primary-700 transition-all shadow-lg shadow-primary-600/20 active:scale-95">Shop Now</Link>
     </div>
   );
 

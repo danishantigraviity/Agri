@@ -143,7 +143,7 @@ export default function CustomerProfile() {
             <button
               onClick={handleUpdateProfile}
               disabled={saving}
-              className="sm:w-auto px-8 py-3 bg-primary-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-gray-50 hover:shadow-lg hover:shadow-primary-400/30 active:scale-95 transition-all flex items-center justify-center gap-2 shadow-md disabled:opacity-60"
+              className="sm:w-auto px-8 py-3 bg-primary-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-primary-700 hover:shadow-lg hover:shadow-primary-400/30 active:scale-95 transition-all flex items-center justify-center gap-2 shadow-md disabled:opacity-60"
             >
               {saving ? (
                 <>

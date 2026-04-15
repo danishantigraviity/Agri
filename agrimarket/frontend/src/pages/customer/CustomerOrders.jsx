@@ -32,7 +32,7 @@ export default function CustomerOrders() {
         <div className="w-16 h-16 bg-red-50 text-red-500 rounded-3xl flex items-center justify-center mx-auto border border-red-100 shadow-sm"><ShoppingBag /></div>
         <h3 className="text-xl font-extrabold text-primary-800 tracking-tight">Stream Connection Failed</h3>
         <p className="text-sm text-gray-500 max-w-xs mx-auto">{msg}</p>
-        <button onClick={() => qc.invalidateQueries(['my-orders'])} className="px-6 py-2.5 bg-primary-600 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-gray-50 active:scale-95 transition-all">Retry Synchronization</button>
+        <button onClick={() => qc.invalidateQueries(['my-orders'])} className="px-6 py-2.5 bg-primary-600 text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-primary-700 active:scale-95 transition-all">Retry Synchronization</button>
       </div>
     );
   }
@@ -91,7 +91,7 @@ export default function CustomerOrders() {
             </div>
             <h3 className="text-2xl font-black text-primary-800 tracking-tighter uppercase">No activity stream found</h3>
             <p className="text-sm font-medium text-gray-400 mt-3 max-w-xs mx-auto leading-relaxed tracking-wide">Your delivery schedule is currently empty for this category.</p>
-            <Link to="/" className="mt-10 px-10 py-5 bg-primary-600 text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.25em] hover:bg-gray-50 hover:shadow-2xl hover:shadow-primary-600/30 active:scale-95 transition-all">
+            <Link to="/" className="mt-10 px-10 py-5 bg-primary-600 text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.25em] hover:bg-primary-700 hover:shadow-2xl hover:shadow-primary-600/30 active:scale-95 transition-all">
               Discover Farm Produce
             </Link>
           </div>
