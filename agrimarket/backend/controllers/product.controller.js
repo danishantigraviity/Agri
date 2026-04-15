@@ -19,7 +19,12 @@ const getProducts = async (req, res) => {
     if (farmer) query.farmer = farmer;
 
     if (search) {
-      query.$text = { $search: search };
+      // Use regex for reliable search (doesn't require a text index to exist)
+      query.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } },
+        { category: { $regex: search, $options: 'i' } },
+      ];
     }
 
     if (minPrice || maxPrice) {

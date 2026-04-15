@@ -280,7 +280,7 @@ const PRICE_PRESETS = [
   { label: '₹1000+', min: 1000, max: PRICE_MAX },
 ];
 
-function FilterDropdown({ priceRange, setPriceRange, isOrganic, setIsOrganic, onApply, onClear, hasFilters }) {
+function FilterDropdown({ priceRange, setPriceRange, isOrganic, setIsOrganic, onApply, onClear, hasFilters, onOrganicToggle }) {
   const [isOpen, setIsOpen] = useState(false);
   const [localMin, setLocalMin] = useState(Number(priceRange.min) || 0);
   const [localMax, setLocalMax] = useState(Number(priceRange.max) || PRICE_MAX);
@@ -330,8 +330,7 @@ function FilterDropdown({ priceRange, setPriceRange, isOrganic, setIsOrganic, on
     setLocalMin(0);
     setLocalMax(PRICE_MAX);
     setPriceRange({ min: '', max: '' });
-    setIsOrganic(false);
-    onClear();
+    onClear(); // onClear resets isOrganic in parent
   };
 
   const applyPreset = (preset) => {
@@ -345,7 +344,8 @@ function FilterDropdown({ priceRange, setPriceRange, isOrganic, setIsOrganic, on
     onApply();
   };
 
-  const activeFilterCount = (priceRange.min ? 1 : 0) + (priceRange.max ? 1 : 0) + (isOrganic ? 1 : 0);
+  // Count price as 1 filter (not 2), organic as 1
+  const activeFilterCount = ((priceRange.min || priceRange.max) ? 1 : 0) + (isOrganic ? 1 : 0);
   const minPercent = (localMin / PRICE_MAX) * 100;
   const maxPercent = (localMax / PRICE_MAX) * 100;
 
@@ -470,7 +470,15 @@ function FilterDropdown({ priceRange, setPriceRange, isOrganic, setIsOrganic, on
               <span className="text-sm font-semibold text-gray-700">Organic Only</span>
             </div>
             <button
-              onClick={() => { setIsOrganic(!isOrganic); onApply(); }}
+              onClick={() => {
+                // Use onOrganicToggle to pass new value directly, avoiding state race
+                if (onOrganicToggle) {
+                  onOrganicToggle(!isOrganic);
+                } else {
+                  setIsOrganic(!isOrganic);
+                  onApply();
+                }
+              }}
               className={`relative w-10 h-6 rounded-full transition-colors duration-300 ${isOrganic ? 'bg-green-500' : 'bg-gray-200'}`}
             >
               <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform duration-300 ${isOrganic ? 'translate-x-[18px]' : 'translate-x-0.5'}`} />
@@ -531,13 +539,16 @@ export default function StorefrontPage() {
     setIsQuickViewOpen(true);
   };
 
+  // Medicine endpoint doesn't support the same filters as products
+  const isMedicineCategory = category === 'medicine';
+
   const queryParams = {
-    ...(category && category !== 'all' && { category }),
+    ...(category && category !== 'all' && !isMedicineCategory && { category }),
     ...(search && { search }),
     ...(sort && { sort }),
-    ...(isOrganic && { isOrganic: 'true' }),
-    ...(priceRange.min && { minPrice: priceRange.min }),
-    ...(priceRange.max && { maxPrice: priceRange.max }),
+    ...(!isMedicineCategory && isOrganic && { isOrganic: 'true' }),
+    ...(!isMedicineCategory && priceRange.min && { minPrice: priceRange.min }),
+    ...(!isMedicineCategory && priceRange.max && { maxPrice: priceRange.max }),
     page,
     limit: 12,
   };
@@ -757,9 +768,7 @@ export default function StorefrontPage() {
               setPriceRange={setPriceRange}
               isOrganic={isOrganic}
               setIsOrganic={setIsOrganic}
-              category={category}
-              setCategory={setCategory}
-              categories={CATEGORIES}
+              onOrganicToggle={(newVal) => { setIsOrganic(newVal); setPage(1); }}
               onApply={() => setPage(1)}
               onClear={clearFilters}
               hasFilters={hasFilters}
