@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
    Custom DatePicker — Premium Calendar Design for AgriMarket
+   Uses .agri-calendar class on the react-datepicker container
    ═══════════════════════════════════════════════════════════════ */
 
 /* ── Base Wrapper ── */
@@ -15,8 +16,10 @@
   z-index: 50 !important;
 }
 
-/* ── Calendar Container ── */
-.agri-calendar {
+/* ── Calendar Container ──
+   react-datepicker applies calendarClassName to the .react-datepicker element,
+   so children are direct descendants of .agri-calendar */
+.react-datepicker.agri-calendar {
   font-family: 'Inter', 'Poppins', system-ui, sans-serif !important;
   background: #ffffff !important;
   border: 1px solid rgba(0, 0, 0, 0.06) !important;
@@ -27,30 +30,30 @@
     0 12px 24px -8px rgba(0, 0, 0, 0.04),
     0 0 0 1px rgba(0, 0, 0, 0.02) !important;
   overflow: hidden;
-  min-width: 280px;
+  min-width: 290px;
 }
 
 /* ── Header ── */
-.agri-calendar .react-datepicker__header {
+.react-datepicker.agri-calendar .react-datepicker__header {
   background: transparent !important;
   border-bottom: none !important;
   padding: 0 !important;
 }
 
-.agri-calendar .react-datepicker__current-month {
+.react-datepicker.agri-calendar .react-datepicker__current-month {
   display: none !important;
 }
 
 /* ── Day Name Row ── */
-.agri-calendar .react-datepicker__day-names {
+.react-datepicker.agri-calendar .react-datepicker__day-names {
   display: flex !important;
   justify-content: space-between !important;
-  margin-top: 4px;
-  margin-bottom: 8px;
+  margin-top: 4px !important;
+  margin-bottom: 8px !important;
   padding: 0 2px;
 }
 
-.agri-calendar .react-datepicker__day-name {
+.react-datepicker.agri-calendar .react-datepicker__day-name {
   color: #9ca3af !important;
   font-weight: 800 !important;
   font-size: 10px !important;
@@ -64,18 +67,18 @@
 }
 
 /* ── Month Grid ── */
-.agri-calendar .react-datepicker__month {
+.react-datepicker.agri-calendar .react-datepicker__month {
   margin: 0 !important;
 }
 
-.agri-calendar .react-datepicker__week {
+.react-datepicker.agri-calendar .react-datepicker__week {
   display: flex !important;
   justify-content: space-between !important;
   margin-bottom: 2px !important;
 }
 
 /* ── Individual Day Cells ── */
-.agri-calendar .react-datepicker__day {
+.react-datepicker.agri-calendar .react-datepicker__day {
   color: #374151 !important;
   width: 36px !important;
   height: 36px !important;
@@ -85,30 +88,30 @@
   font-size: 13px !important;
   font-weight: 600 !important;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  position: relative;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
-.agri-calendar .react-datepicker__day:hover {
+.react-datepicker.agri-calendar .react-datepicker__day:hover {
   background-color: #f0fdf4 !important;
   color: #16a34a !important;
-  transform: scale(1.08);
 }
 
 /* Outside month days */
-.agri-calendar .react-datepicker__day--outside-month {
+.react-datepicker.agri-calendar .react-datepicker__day--outside-month {
   color: #d1d5db !important;
   font-weight: 400 !important;
-  opacity: 0.5;
+  opacity: 0.5 !important;
 }
 
-.agri-calendar .react-datepicker__day--outside-month:hover {
+.react-datepicker.agri-calendar .react-datepicker__day--outside-month:hover {
   background-color: transparent !important;
   color: #d1d5db !important;
-  transform: none;
 }
 
 /* ── Today ── */
-.agri-calendar .react-datepicker__day--today {
+.react-datepicker.agri-calendar .react-datepicker__day--today {
   background-color: #f0fdf4 !important;
   color: #16a34a !important;
   font-weight: 800 !important;
@@ -117,57 +120,54 @@
 }
 
 /* ── Selected / Range States ── */
-.agri-calendar .react-datepicker__day--selected,
-.agri-calendar .react-datepicker__day--range-start,
-.agri-calendar .react-datepicker__day--range-end {
+.react-datepicker.agri-calendar .react-datepicker__day--selected,
+.react-datepicker.agri-calendar .react-datepicker__day--range-start,
+.react-datepicker.agri-calendar .react-datepicker__day--range-end {
   background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%) !important;
   color: #ffffff !important;
   font-weight: 700 !important;
   border: none !important;
   line-height: 36px !important;
   box-shadow: 0 4px 12px rgba(22, 163, 74, 0.35) !important;
-  transform: scale(1.05);
 }
 
-.agri-calendar .react-datepicker__day--selected:hover,
-.agri-calendar .react-datepicker__day--range-start:hover,
-.agri-calendar .react-datepicker__day--range-end:hover {
+.react-datepicker.agri-calendar .react-datepicker__day--selected:hover,
+.react-datepicker.agri-calendar .react-datepicker__day--range-start:hover,
+.react-datepicker.agri-calendar .react-datepicker__day--range-end:hover {
   background: linear-gradient(135deg, #16a34a 0%, #15803d 100%) !important;
   color: #ffffff !important;
-  transform: scale(1.1);
 }
 
-.agri-calendar .react-datepicker__day--in-range,
-.agri-calendar .react-datepicker__day--in-selecting-range {
+.react-datepicker.agri-calendar .react-datepicker__day--in-range,
+.react-datepicker.agri-calendar .react-datepicker__day--in-selecting-range {
   background-color: #dcfce7 !important;
   color: #166534 !important;
   border-radius: 0 !important;
   font-weight: 600 !important;
   box-shadow: none !important;
-  transform: none;
 }
 
-.agri-calendar .react-datepicker__day--in-range:hover,
-.agri-calendar .react-datepicker__day--in-selecting-range:hover {
+.react-datepicker.agri-calendar .react-datepicker__day--in-range:hover,
+.react-datepicker.agri-calendar .react-datepicker__day--in-selecting-range:hover {
   background-color: #bbf7d0 !important;
   color: #166534 !important;
 }
 
-/* Range start rounding */
-.agri-calendar .react-datepicker__day--range-start {
+/* Range start/end rounding */
+.react-datepicker.agri-calendar .react-datepicker__day--range-start {
   border-radius: 12px 0 0 12px !important;
 }
 
-.agri-calendar .react-datepicker__day--range-end {
+.react-datepicker.agri-calendar .react-datepicker__day--range-end {
   border-radius: 0 12px 12px 0 !important;
 }
 
-.agri-calendar .react-datepicker__day--range-start.react-datepicker__day--range-end {
+.react-datepicker.agri-calendar .react-datepicker__day--range-start.react-datepicker__day--range-end {
   border-radius: 12px !important;
 }
 
 /* Keyboard selected */
-.agri-calendar .react-datepicker__day--keyboard-selected {
+.react-datepicker.agri-calendar .react-datepicker__day--keyboard-selected {
   background-color: #f0fdf4 !important;
   color: #16a34a !important;
   border: 2px solid #86efac !important;
@@ -175,53 +175,41 @@
 }
 
 /* ── Navigation Arrows ── */
-.agri-calendar .react-datepicker__navigation {
+.react-datepicker.agri-calendar .react-datepicker__navigation {
   top: 20px !important;
   width: 32px !important;
   height: 32px !important;
   border-radius: 10px !important;
   transition: all 0.2s !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.agri-calendar .react-datepicker__navigation:hover {
+.react-datepicker.agri-calendar .react-datepicker__navigation:hover {
   background-color: #f3f4f6 !important;
 }
 
-.agri-calendar .react-datepicker__navigation--previous {
+.react-datepicker.agri-calendar .react-datepicker__navigation--previous {
   left: auto !important;
   right: 52px !important;
 }
 
-.agri-calendar .react-datepicker__navigation--next {
+.react-datepicker.agri-calendar .react-datepicker__navigation--next {
   right: 16px !important;
 }
 
-.agri-calendar .react-datepicker__navigation-icon::before {
+.react-datepicker.agri-calendar .react-datepicker__navigation-icon::before {
   border-color: #9ca3af !important;
   border-width: 2px 2px 0 0 !important;
   width: 7px !important;
   height: 7px !important;
   top: 11px !important;
-  transition: border-color 0.2s !important;
 }
 
-.agri-calendar .react-datepicker__navigation:hover .react-datepicker__navigation-icon::before {
+.react-datepicker.agri-calendar .react-datepicker__navigation:hover .react-datepicker__navigation-icon::before {
   border-color: #374151 !important;
 }
 
-.agri-calendar .react-datepicker__navigation-icon--previous::before {
-  left: 10px !important;
-}
-
-.agri-calendar .react-datepicker__navigation-icon--next::before {
-  left: 6px !important;
-}
-
 /* ── Today Button ── */
-.agri-calendar .react-datepicker__today-button {
+.react-datepicker.agri-calendar .react-datepicker__today-button {
   background: transparent !important;
   border-top: 1px solid #f3f4f6 !important;
   color: #16a34a !important;
@@ -235,7 +223,7 @@
   transition: all 0.2s !important;
 }
 
-.agri-calendar .react-datepicker__today-button:hover {
+.react-datepicker.agri-calendar .react-datepicker__today-button:hover {
   color: #15803d !important;
 }
 
@@ -243,8 +231,6 @@
 .react-datepicker__close-icon {
   right: 6px !important;
   padding: 0 !important;
-  top: 50% !important;
-  transform: translateY(-50%);
 }
 
 .react-datepicker__close-icon::after {
@@ -264,67 +250,6 @@
 }
 
 /* ── Triangle Arrow ── */
-.agri-calendar .react-datepicker__triangle {
+.react-datepicker.agri-calendar .react-datepicker__triangle {
   display: none !important;
-}
-
-/* ═══════ Dark Mode ═══════ */
-.dark .agri-calendar {
-  background: #111827 !important;
-  border-color: rgba(255, 255, 255, 0.06) !important;
-  box-shadow:
-    0 25px 50px -12px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(255, 255, 255, 0.05) !important;
-}
-
-.dark .agri-calendar .react-datepicker__day-name {
-  color: #6b7280 !important;
-}
-
-.dark .agri-calendar .react-datepicker__day {
-  color: #d1d5db !important;
-}
-
-.dark .agri-calendar .react-datepicker__day:hover {
-  background-color: #1f2937 !important;
-  color: #4ade80 !important;
-}
-
-.dark .agri-calendar .react-datepicker__day--outside-month {
-  color: #4b5563 !important;
-}
-
-.dark .agri-calendar .react-datepicker__day--today {
-  background-color: rgba(34, 197, 94, 0.1) !important;
-  color: #4ade80 !important;
-  border-color: rgba(34, 197, 94, 0.3) !important;
-}
-
-.dark .agri-calendar .react-datepicker__day--in-range,
-.dark .agri-calendar .react-datepicker__day--in-selecting-range {
-  background-color: rgba(34, 197, 94, 0.15) !important;
-  color: #86efac !important;
-}
-
-.dark .agri-calendar .react-datepicker__navigation:hover {
-  background-color: #1f2937 !important;
-}
-
-.dark .agri-calendar .react-datepicker__navigation-icon::before {
-  border-color: #6b7280 !important;
-}
-
-.dark .agri-calendar .react-datepicker__navigation:hover .react-datepicker__navigation-icon::before {
-  border-color: #e5e7eb !important;
-}
-
-.dark .agri-calendar .react-datepicker__today-button {
-  border-top-color: #1f2937 !important;
-  color: #4ade80 !important;
-}
-
-.dark .agri-calendar .react-datepicker__day--keyboard-selected {
-  background-color: rgba(34, 197, 94, 0.1) !important;
-  color: #4ade80 !important;
-  border-color: rgba(34, 197, 94, 0.3) !important;
 }
