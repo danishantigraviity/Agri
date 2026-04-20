@@ -36,10 +36,12 @@ const generateRandomToken = () => {
 };
 
 const setRefreshTokenCookie = (res, token) => {
+  const isProduction = process.env.NODE_ENV === 'production';
+  
   res.cookie('refreshToken', token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+    secure: isProduction, // Must be true for sameSite: 'none'
+    sameSite: isProduction ? 'none' : 'lax', // 'none' for cross-site in production
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     path: '/api/auth',
     signed: true,
@@ -47,10 +49,12 @@ const setRefreshTokenCookie = (res, token) => {
 };
 
 const clearRefreshTokenCookie = (res) => {
+  const isProduction = process.env.NODE_ENV === 'production';
+
   res.clearCookie('refreshToken', {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax',
     path: '/api/auth',
   });
 };

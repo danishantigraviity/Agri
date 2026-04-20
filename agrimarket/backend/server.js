@@ -34,7 +34,8 @@ const allowedOrigins = [
   process.env.FRONTEND_URL,
   'http://localhost:5173',
   'http://127.0.0.1:5173',
-  'https://agri-gamma-liard.vercel.app' // Fallback for safety
+  'https://agri-gamma-liard.vercel.app',
+  'https://agrimarket-platform.vercel.app' // Added common default
 ].map(url => url?.replace(/\/$/, '')).filter(Boolean);
 
 app.use(cors({
@@ -42,8 +43,9 @@ app.use(cors({
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
+    // Check if origin is allowed
     const sanitizedOrigin = origin.replace(/\/$/, '');
-    if (allowedOrigins.includes(sanitizedOrigin)) {
+    if (allowedOrigins.includes(sanitizedOrigin) || process.env.NODE_ENV === 'development') {
       callback(null, true);
     } else {
       console.warn(`⚠️ CORS blocked for origin: ${origin}`);
@@ -52,7 +54,7 @@ app.use(cors({
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-CSRF-Token', 'Cookie', 'Accept'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
   exposedHeaders: ['Set-Cookie']
 }));
 
@@ -67,7 +69,7 @@ app.use((req, res, next) => {
   }
   
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-CSRF-Token, Cookie, Accept');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, Accept, Origin');
   
   if (req.method === 'OPTIONS') {
     return res.sendStatus(200);
