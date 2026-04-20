@@ -74,8 +74,10 @@ export default function AddProductPage({ editMode }) {
         toast.success('Product submitted for approval!');
       }
       navigate('/farmer/products');
-    } catch(e) { 
-      toast.error(e.response?.data?.message || `Failed to ${editMode ? 'update' : 'add'} product`); 
+    } catch(err) { 
+      const msg = err.response?.data?.message || err.response?.data?.errors?.[0]?.msg || `Failed to ${editMode ? 'update' : 'add'} product`;
+      toast.error(msg);
+      console.error('❌ Product submission error:', err);
     } finally { 
       setLoading(false); 
     }

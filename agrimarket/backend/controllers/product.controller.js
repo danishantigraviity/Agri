@@ -109,7 +109,12 @@ const createProduct = async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ success: false, errors: errors.array() });
+      console.error('❌ Validation Errors:', errors.array());
+      return res.status(400).json({ 
+        success: false, 
+        message: errors.array()[0].msg, // Send the first error message to the toast
+        errors: errors.array() 
+      });
     }
 
     const images = req.files?.map((f) => f.path) || [];
@@ -125,12 +130,12 @@ const createProduct = async (req, res) => {
       category: body.category,
       subcategory: body.subcategory,
       price: {
-        mrp: Number(body['price.mrp'] || body.price?.mrp || 0),
-        selling: Number(body['price.selling'] || body.price?.selling || 0),
+        mrp: Number(body['price.mrp'] || (body.price && body.price.mrp) || 0),
+        selling: Number(body['price.selling'] || (body.price && body.price.selling) || 0),
         unit: body['price.unit'] || body.price?.unit || 'kg',
       },
       stock: {
-        quantity: Number(body['stock.quantity'] || body.stock?.quantity || 0),
+        quantity: Number(body['stock.quantity'] || (body.stock && body.stock.quantity) || 0),
       },
       isOrganic: body.isOrganic === 'true' || body.isOrganic === true,
       tags: typeof body.tags === 'string' 
@@ -159,6 +164,11 @@ const createProduct = async (req, res) => {
 // @access  Private (farmer)
 const updateProduct = async (req, res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, message: errors.array()[0].msg, errors: errors.array() });
+    }
+
     const product = await Product.findOne({
       _id: req.params.id,
       farmer: req.user._id,
@@ -176,12 +186,12 @@ const updateProduct = async (req, res) => {
       category: body.category,
       subcategory: body.subcategory,
       price: {
-        mrp: Number(body['price.mrp'] || body.price?.mrp || 0),
-        selling: Number(body['price.selling'] || body.price?.selling || 0),
+        mrp: Number(body['price.mrp'] || (body.price && body.price.mrp) || 0),
+        selling: Number(body['price.selling'] || (body.price && body.price.selling) || 0),
         unit: body['price.unit'] || body.price?.unit || 'kg',
       },
       stock: {
-        quantity: Number(body['stock.quantity'] || body.stock?.quantity || 0),
+        quantity: Number(body['stock.quantity'] || (body.stock && body.stock.quantity) || 0),
       },
       isOrganic: body.isOrganic === 'true' || body.isOrganic === true,
       tags: typeof body.tags === 'string' 
